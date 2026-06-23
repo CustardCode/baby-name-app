@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Australian Baby Name Explorer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="intro">
+        <div>
+          <p class="eyebrow">Australia baby names</p>
+          <h1>Find a name.</h1>
+        </div>
+        <p class="note">
+          Pick a year, choose boys or girls, or search a name.
+        </p>
+      </section>
+
+      <article class="panel search-panel">
+        <div class="search-hero">
+          <label>
+            Search a name
+            <input id="nameSearch" type="search" placeholder="Rebecca" autocomplete="off" />
+          </label>
+          <label>
+            Sex
+            <select id="searchSexSelect">
+              <option value="girl">Girl</option>
+              <option value="boy">Boy</option>
+            </select>
+          </label>
+        </div>
+        <div id="searchSummary" class="search-summary"></div>
+        <div id="nameStats" class="stats"></div>
+        <canvas id="trendCanvas" width="1120" height="280" aria-label="Name comparison chart"></canvas>
+        <div class="table-wrap trend-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Rank</th>
+              </tr>
+            </thead>
+            <tbody id="trendBody"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <section class="controls" aria-label="Filters">
+        <label>
+          Sex
+          <select id="sexSelect">
+            <option value="boy">Boy</option>
+            <option value="girl">Girl</option>
+          </select>
+        </label>
+
+        <label>
+          Year
+          <select id="yearSelect"></select>
+        </label>
+
+        <label>
+          Show top
+          <input id="limitInput" type="number" min="5" max="100" step="5" value="20" />
+        </label>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Top names</p>
+              <h2 id="rankingTitle">Top names</h2>
+            </div>
+            <span id="recordCount" class="pill"></span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody id="rankingBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="./data/clean/baby_names_master.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
