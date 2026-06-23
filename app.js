@@ -36,6 +36,7 @@ const els = {
   nameSearch: document.querySelector("#nameSearch"),
   searchSummary: document.querySelector("#searchSummary"),
   nameStats: document.querySelector("#nameStats"),
+  yearCards: document.querySelector("#yearCards"),
   trendBody: document.querySelector("#trendBody"),
   trendCanvas: document.querySelector("#trendCanvas")
 };
@@ -133,6 +134,7 @@ function renderSearch() {
   if (!name) {
     els.searchSummary.textContent = "Type a name to see the last 10 years.";
     els.nameStats.innerHTML = "";
+    els.yearCards.innerHTML = "";
     els.trendBody.innerHTML = "";
     drawChart([]);
     return;
@@ -163,6 +165,15 @@ function renderSearch() {
     .map((item) => `<tr><td>${item.year}</td><td>${item.row ? ordinal(item.row.rank) : "Not top 100"}</td></tr>`)
     .join("");
 
+  els.yearCards.innerHTML = history
+    .map((item) => `
+      <div class="year-card">
+        <span>${item.year}</span>
+        <b>${item.row ? ordinal(item.row.rank) : "Not top 100"}</b>
+      </div>
+    `)
+    .join("");
+
   drawChart(history);
 }
 
@@ -182,19 +193,29 @@ function renderRankings() {
 
 function drawChart(history) {
   const canvas = els.trendCanvas;
+  const rect = canvas.getBoundingClientRect();
+  const width = Math.max(Math.floor(rect.width), 320);
+  const height = Math.max(Math.floor(rect.height), 220);
+  const ratio = window.devicePixelRatio || 1;
+  if (canvas.width !== Math.floor(width * ratio) || canvas.height !== Math.floor(height * ratio)) {
+    canvas.width = Math.floor(width * ratio);
+    canvas.height = Math.floor(height * ratio);
+  }
   const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.clearRect(0, 0, width, height);
   ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, width, height);
   ctx.strokeStyle = "#d9d3c8";
-  ctx.strokeRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
+  ctx.strokeRect(0.5, 0.5, width - 1, height - 1);
 
   if (!history.length) return;
 
-  const minX = 62;
-  const maxX = canvas.width - 28;
-  const minY = 30;
-  const maxY = canvas.height - 48;
+  const isSmall = width < 520;
+  const minX = isSmall ? 44 : 62;
+  const maxX = width - (isSmall ? 16 : 28);
+  const minY = 26;
+  const maxY = height - (isSmall ? 42 : 48);
   const maxRank = 100;
 
   ctx.strokeStyle = "#d9d3c8";
@@ -205,9 +226,9 @@ function drawChart(history) {
   ctx.stroke();
 
   ctx.fillStyle = "#68645d";
-  ctx.font = "12px sans-serif";
-  ctx.fillText("1st", 24, minY + 4);
-  ctx.fillText("100th", 14, maxY + 4);
+  ctx.font = `${isSmall ? 11 : 12}px sans-serif`;
+  ctx.fillText("1st", isSmall ? 16 : 24, minY + 4);
+  ctx.fillText("100th", isSmall ? 4 : 14, maxY + 4);
 
   const points = history.map((item, index) => {
     const x = history.length === 1 ? (minX + maxX) / 2 : minX + (index / (history.length - 1)) * (maxX - minX);
@@ -236,7 +257,9 @@ function drawChart(history) {
 
   ctx.fillStyle = "#68645d";
   points.forEach((point) => {
-    ctx.fillText(String(point.item.year), point.x - 14, canvas.height - 18);
+    if (!isSmall || point.item.year % 2 === 1 || point.item.year === history[history.length - 1].year) {
+      ctx.fillText(String(point.item.year), point.x - 14, height - 16);
+    }
   });
 }
 
@@ -250,6 +273,7 @@ els.searchSex.addEventListener("change", renderSearch);
 els.year.addEventListener("change", renderRankings);
 els.limit.addEventListener("input", renderRankings);
 els.nameSearch.addEventListener("input", renderSearch);
+window.addEventListener("resize", () => renderSearch());
 
 populateYears();
 els.sex.value = "girl";

@@ -60,7 +60,7 @@ h2 {
 
 h1 {
   max-width: 820px;
-  font-size: clamp(2.2rem, 6vw, 4.7rem);
+  font-size: clamp(2.4rem, 6vw, 4.7rem);
 }
 
 h2 {
@@ -114,6 +114,10 @@ code {
   border-color: #a8c9c4;
   font-size: 1.45rem;
   font-weight: 800;
+}
+
+.search-hero select {
+  appearance: auto;
 }
 
 label {
@@ -233,14 +237,46 @@ th:first-child {
   font-size: 1.18rem;
 }
 
-canvas {
-  display: block;
-  width: calc(100% - 40px);
-  height: 280px;
-  margin: 0 20px 16px;
+.chart-card {
+  margin: 0 20px 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 300px;
+}
+
+.year-cards {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 20px 16px;
+}
+
+.year-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfaf7;
+  padding: 10px;
+}
+
+.year-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.year-card b {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 1rem;
 }
 
 .quality-panel {
@@ -283,8 +319,8 @@ canvas {
 
 @media (max-width: 820px) {
   .shell {
-    width: min(100% - 20px, 1180px);
-    padding: 24px 0;
+    width: min(100% - 14px, 1180px);
+    padding: 16px 0 24px;
   }
 
   .intro,
@@ -303,5 +339,78 @@ canvas {
   th,
   td {
     padding: 11px 14px;
+  }
+
+  .intro {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-size: 2.55rem;
+  }
+
+  .note {
+    font-size: 0.95rem;
+  }
+
+  .search-hero {
+    padding: 16px 14px 10px;
+  }
+
+  .search-hero input,
+  .search-hero select {
+    min-height: 54px;
+    font-size: 1.25rem;
+  }
+
+  .search-summary,
+  .stats,
+  .chart-card,
+  .year-cards {
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+  .stats {
+    gap: 8px;
+  }
+
+  .stat {
+    padding: 10px;
+  }
+
+  .stat b {
+    font-size: 1.04rem;
+  }
+
+  canvas {
+    height: 230px;
+  }
+
+  .year-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .controls {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  h1 {
+    font-size: 2.25rem;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .year-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .trend-wrap {
+    display: none;
   }
 }
