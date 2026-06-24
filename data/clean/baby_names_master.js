@@ -38318,6 +38318,28 @@ window.BABY_NAME_MASTER = [
     "sex": "boy",
     "name": "Oliver",
     "count": "",
+    "rank": "1",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
+    "name": "Noah",
+    "count": "",
+    "rank": "2",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
+    "name": "Oliver",
+    "count": "",
     "rank": "2",
     "source_url": "https://www.babycenter.com.au/baby-names/most-popular/top-baby-names-2025",
     "source_name": "BabyCenter Australia top baby names 2025",
@@ -38333,6 +38355,28 @@ window.BABY_NAME_MASTER = [
     "source_url": "https://www.babycenter.com.au/baby-names/most-popular/top-baby-names-2025",
     "source_name": "BabyCenter Australia top baby names 2025",
     "notes": "Australia-wide BabyCenter ranking / rank only / top 100"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
+    "name": "Theodore",
+    "count": "",
+    "rank": "3",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
+    "name": "Henry",
+    "count": "",
+    "rank": "4",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
   },
   {
     "year": "2025",
@@ -38360,12 +38404,34 @@ window.BABY_NAME_MASTER = [
     "year": "2025",
     "state_or_territory": "Australia",
     "sex": "boy",
+    "name": "Luca",
+    "count": "",
+    "rank": "5",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
     "name": "Charlie",
     "count": "",
     "rank": "6",
     "source_url": "https://www.babycenter.com.au/baby-names/most-popular/top-baby-names-2025",
     "source_name": "BabyCenter Australia top baby names 2025",
     "notes": "Australia-wide BabyCenter ranking / rank only / top 100"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
+    "name": "Leo",
+    "count": "",
+    "rank": "6",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
   },
   {
     "year": "2025",
@@ -38382,12 +38448,45 @@ window.BABY_NAME_MASTER = [
     "year": "2025",
     "state_or_territory": "Australia",
     "sex": "boy",
+    "name": "Hudson",
+    "count": "",
+    "rank": "7",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
+    "name": "Charlie",
+    "count": "",
+    "rank": "8",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
     "name": "Levi",
     "count": "",
     "rank": "8",
     "source_url": "https://www.babycenter.com.au/baby-names/most-popular/top-baby-names-2025",
     "source_name": "BabyCenter Australia top baby names 2025",
     "notes": "Australia-wide BabyCenter ranking / rank only / top 100"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
+    "name": "Jack",
+    "count": "",
+    "rank": "9",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
   },
   {
     "year": "2025",
@@ -38410,6 +38509,17 @@ window.BABY_NAME_MASTER = [
     "source_url": "https://www.babycenter.com.au/baby-names/most-popular/top-baby-names-2025",
     "source_name": "BabyCenter Australia top baby names 2025",
     "notes": "Australia-wide BabyCenter ranking / rank only / top 100"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "boy",
+    "name": "William",
+    "count": "",
+    "rank": "10",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
   },
   {
     "year": "2025",
@@ -39408,9 +39518,31 @@ window.BABY_NAME_MASTER = [
     "name": "Charlotte",
     "count": "",
     "rank": "1",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
+    "name": "Charlotte",
+    "count": "",
+    "rank": "1",
     "source_url": "https://www.babycenter.com.au/baby-names/most-popular/top-baby-names-2025",
     "source_name": "BabyCenter Australia top baby names 2025",
     "notes": "Australia-wide BabyCenter ranking / rank only / top 100"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
+    "name": "Amelia",
+    "count": "",
+    "rank": "2",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
   },
   {
     "year": "2025",
@@ -39440,10 +39572,32 @@ window.BABY_NAME_MASTER = [
     "sex": "girl",
     "name": "Isla",
     "count": "",
+    "rank": "3",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
+    "name": "Isla",
+    "count": "",
     "rank": "4",
     "source_url": "https://www.babycenter.com.au/baby-names/most-popular/top-baby-names-2025",
     "source_name": "BabyCenter Australia top baby names 2025",
     "notes": "Australia-wide BabyCenter ranking / rank only / top 100"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
+    "name": "Olivia",
+    "count": "",
+    "rank": "4",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
   },
   {
     "year": "2025",
@@ -39455,6 +39609,28 @@ window.BABY_NAME_MASTER = [
     "source_url": "https://www.babycenter.com.au/baby-names/most-popular/top-baby-names-2025",
     "source_name": "BabyCenter Australia top baby names 2025",
     "notes": "Australia-wide BabyCenter ranking / rank only / top 100"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
+    "name": "Mia",
+    "count": "",
+    "rank": "5",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
+    "name": "Hazel",
+    "count": "",
+    "rank": "6",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
   },
   {
     "year": "2025",
@@ -39482,6 +39658,28 @@ window.BABY_NAME_MASTER = [
     "year": "2025",
     "state_or_territory": "Australia",
     "sex": "girl",
+    "name": "Harper",
+    "count": "",
+    "rank": "7",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
+    "name": "Matilda",
+    "count": "",
+    "rank": "8",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
     "name": "Mia",
     "count": "",
     "rank": "8",
@@ -39499,6 +39697,28 @@ window.BABY_NAME_MASTER = [
     "source_url": "https://www.babycenter.com.au/baby-names/most-popular/top-baby-names-2025",
     "source_name": "BabyCenter Australia top baby names 2025",
     "notes": "Australia-wide BabyCenter ranking / rank only / top 100"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
+    "name": "Sophie",
+    "count": "",
+    "rank": "9",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
+  },
+  {
+    "year": "2025",
+    "state_or_territory": "Australia",
+    "sex": "girl",
+    "name": "Grace",
+    "count": "",
+    "rank": "10",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "source_name": "Australia 2025 national report via McCrindle",
+    "notes": "national report / rank only / top 10"
   },
   {
     "year": "2025",

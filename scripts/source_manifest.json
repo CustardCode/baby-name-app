@@ -106,5 +106,41 @@
     "only_top_100": true,
     "usefulness_rank": 8,
     "notes": "Useful for national rank reference; not treated as calculated from state counts."
+  },
+  {
+    "source_name": "Australia 2025 national top names via McCrindle",
+    "source_url": "https://www.news.com.au/lifestyle/parenting/babies/mccrindles-2025-australian-baby-names-report-reveals-new-trend/news-story/2258c31d4e9b57030f27d3a355990ef5",
+    "state_or_territory": "Australia",
+    "years_covered": "2025",
+    "file_type": "national report summary",
+    "fields_available": ["rank", "name"],
+    "count_available": false,
+    "only_top_100": false,
+    "usefulness_rank": 9,
+    "notes": "Top 10 boys and girls only. Used as the primary 2025 national source for ranks 1-10, with BabyCenter filling ranks after the published top 10."
+  },
+  {
+    "source_name": "NSW 2025 registry release via News.com.au",
+    "source_url": "https://www.news.com.au/lifestyle/nsw-registry-of-births-deaths-and-marriages-reveals-top-baby-names-for-2025-surprising-entries-on-list/news-story/cbe9c55a328d037792d0b73a540ee627",
+    "state_or_territory": "NSW",
+    "years_covered": "2025",
+    "file_type": "news article quoting NSW Registry",
+    "fields_available": ["rank", "name", "count for rank 1"],
+    "count_available": "partial",
+    "only_top_100": false,
+    "usefulness_rank": 10,
+    "notes": "Useful public check source for 2025 state trends. Not imported yet because the complete table was not publicly available in machine-readable form."
+  },
+  {
+    "source_name": "Queensland 2025 registry release via Courier-Mail",
+    "source_url": "https://www.couriermail.com.au/news/queensland/queenslands-top-baby-names-revealed-as-classic-choices-oliver-and-charlotte-dominate/news-story/8a62fc34e0b01c842a8156e20b505fac",
+    "state_or_territory": "QLD",
+    "years_covered": "2025",
+    "file_type": "news article quoting Queensland registry",
+    "fields_available": ["rank", "name", "count for rank 1"],
+    "count_available": "partial",
+    "only_top_100": false,
+    "usefulness_rank": 11,
+    "notes": "Useful public check source for 2025 state trends. Not imported yet because the complete top list was not publicly available in machine-readable form."
   }
 ]
