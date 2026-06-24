@@ -349,11 +349,13 @@ function drawChart(history) {
   if (!history.length) return;
 
   const isSmall = width < 520;
-  const minX = isSmall ? 42 : 58;
-  const maxX = width - (isSmall ? 18 : 30);
-  const minY = isSmall ? 22 : 24;
-  const maxY = height - (isSmall ? 58 : 62);
-  const yearLabelY = height - 16;
+  const isWide = width > 860;
+  const plotWidth = isWide ? Math.min(820, width - 160) : width - (isSmall ? 60 : 88);
+  const minX = Math.round((width - plotWidth) / 2) + (isSmall ? 10 : 16);
+  const maxX = Math.round((width + plotWidth) / 2) - (isSmall ? 8 : 16);
+  const minY = isSmall ? 24 : 34;
+  const maxY = height - (isSmall ? 58 : 74);
+  const yearLabelY = height - (isSmall ? 16 : 24);
   const missingY = maxY + (yearLabelY - maxY) / 2;
   const maxRank = 100;
 
@@ -375,9 +377,11 @@ function drawChart(history) {
   ctx.stroke();
 
   ctx.fillStyle = "#7a746b";
-  ctx.font = `${isSmall ? 11 : 12}px sans-serif`;
-  ctx.fillText("1st", isSmall ? 16 : 24, minY + 4);
-  ctx.fillText("100th", isSmall ? 4 : 14, maxY + 4);
+  ctx.font = `700 ${isSmall ? 11 : 12}px sans-serif`;
+  ctx.textAlign = "right";
+  ctx.fillText("1st", minX - (isSmall ? 12 : 22), minY + 4);
+  ctx.fillText("100th", minX - (isSmall ? 12 : 22), maxY + 4);
+  ctx.textAlign = "left";
 
   const points = history.map((item, index) => {
     const x = history.length === 1 ? (minX + maxX) / 2 : minX + (index / (history.length - 1)) * (maxX - minX);
@@ -417,11 +421,14 @@ function drawChart(history) {
   });
 
   ctx.fillStyle = "#68645d";
+  ctx.font = `700 ${isSmall ? 11 : 12}px sans-serif`;
+  ctx.textAlign = "center";
   points.forEach((point) => {
     if (!isSmall || point.item.year % 2 === 1 || point.item.year === history[history.length - 1].year) {
-      ctx.fillText(String(point.item.year), point.x - 14, yearLabelY);
+      ctx.fillText(String(point.item.year), point.x, yearLabelY);
     }
   });
+  ctx.textAlign = "left";
 }
 
 function showChartTooltip(point) {
@@ -461,7 +468,6 @@ function searchRankingName(name) {
   els.nameSearch.value = name;
   renderSearch();
   window.scrollTo({ top: 0, behavior: "smooth" });
-  els.nameSearch.focus();
 }
 
 els.sex.addEventListener("change", renderRankings);

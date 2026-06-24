@@ -16,6 +16,9 @@
       </section>
 
       <article class="panel search-panel">
+        <div class="panel-kicker">
+          <span>Name history</span>
+        </div>
         <div class="search-hero">
           <input id="nameSearch" type="search" placeholder="..." autocomplete="off" aria-label="Search a name" />
           <div class="auto-sex" aria-live="polite">
@@ -31,51 +34,61 @@
         <div id="yearCards" class="year-cards"></div>
       </article>
 
-      <section class="controls" aria-label="Filters">
-        <label>
-          Gender
-          <select id="sexSelect">
-            <option value="boy">Boy</option>
-            <option value="girl">Girl</option>
-          </select>
-        </label>
+      <section class="browse-section" aria-label="Browse top names section">
+        <div class="section-divider">
+          <div>
+            <p class="eyebrow">Browse top names</p>
+            <h2>Choose a year and gender</h2>
+          </div>
+          <span>Top list</span>
+        </div>
 
-        <label>
-          Year
-          <select id="yearSelect"></select>
-        </label>
+        <section class="controls" aria-label="Filters">
+          <label>
+            Gender
+            <select id="sexSelect">
+              <option value="boy">Boy</option>
+              <option value="girl">Girl</option>
+            </select>
+          </label>
 
-        <label>
-          Show
-          <input id="limitInput" type="number" min="5" max="100" step="5" value="20" />
-        </label>
-      </section>
+          <label>
+            Year
+            <select id="yearSelect"></select>
+          </label>
 
-      <section class="grid">
-        <article class="panel">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">Ranking list</p>
-              <h2 id="rankingTitle">Ranking list</h2>
+          <label>
+            Show
+            <input id="limitInput" type="number" min="5" max="100" step="5" value="20" />
+          </label>
+        </section>
+
+        <section class="grid">
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Ranking list</p>
+                <h2 id="rankingTitle">Ranking list</h2>
+              </div>
+              <span id="recordCount" class="pill"></span>
             </div>
-            <span id="recordCount" class="pill"></span>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Rank</th>
-                  <th>Name</th>
-                </tr>
-              </thead>
-              <tbody id="rankingBody"></tbody>
-            </table>
-          </div>
-        </article>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody id="rankingBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
       </section>
 
       <p class="data-note">
-        The app uses the best public national ranking available for each year, then fills gaps from BabyCenter top-100 lists while keeping published ranks. Not top 100 means the name was outside the available published list for that year.
+        The app uses the best public national ranking available for each year.
       </p>
     </main>
 
