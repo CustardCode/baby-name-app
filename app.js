@@ -1,6 +1,38 @@
 const state = {
-  rows: normaliseRows(window.BABY_NAME_MASTER || [])
+  rows: [],
+  chartPoints: []
 };
+
+const NATIONAL_REPORT_ROWS = [
+  ["2025", "Australia", "boy", "Oliver", "1", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "boy", "Noah", "2", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "boy", "Theodore", "3", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "boy", "Henry", "4", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "boy", "Luca", "5", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "boy", "Leo", "6", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "boy", "Hudson", "7", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "boy", "Charlie", "8", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "boy", "Jack", "9", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "boy", "William", "10", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Charlotte", "1", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Amelia", "2", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Isla", "3", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Olivia", "4", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Mia", "5", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Hazel", "6", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Harper", "7", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Matilda", "8", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Sophie", "9", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"],
+  ["2025", "Australia", "girl", "Grace", "10", "Australia 2025 national report via McCrindle", "national report / rank only / top 10"]
+].map(([year, area, sex, name, rank, source, notes]) => ({
+  year,
+  state_or_territory: area,
+  sex,
+  name,
+  rank,
+  source_name: source,
+  notes
+}));
 
 const NAME_GROUPS = [
   ["Rebecca", "Bec", "Becca", "Becky", "Rebekah"],
@@ -27,7 +59,7 @@ const NAME_GROUPS = [
 
 const els = {
   sex: document.querySelector("#sexSelect"),
-  searchSex: document.querySelector("#searchSexSelect"),
+  searchSexLabel: document.querySelector("#searchSexLabel"),
   year: document.querySelector("#yearSelect"),
   limit: document.querySelector("#limitInput"),
   rankingTitle: document.querySelector("#rankingTitle"),
@@ -37,8 +69,8 @@ const els = {
   searchSummary: document.querySelector("#searchSummary"),
   nameStats: document.querySelector("#nameStats"),
   yearCards: document.querySelector("#yearCards"),
-  trendBody: document.querySelector("#trendBody"),
-  trendCanvas: document.querySelector("#trendCanvas")
+  trendCanvas: document.querySelector("#trendCanvas"),
+  chartTooltip: document.querySelector("#chartTooltip")
 };
 
 function titleCase(value) {
@@ -70,6 +102,14 @@ function ordinal(number) {
   return `${n}${suffixes[(mod100 - 20) % 10] || suffixes[mod100] || suffixes[0]}`;
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
 function normaliseRows(rows) {
   return rows
     .map((row) => ({
@@ -78,9 +118,60 @@ function normaliseRows(rows) {
       sex: String(row.sex || "").trim().toLowerCase(),
       name: titleCase(row.name),
       source: String(row.source_name || "").trim(),
+      notes: String(row.notes || "").trim(),
       rank: row.rank === "" || row.rank == null ? null : Number(row.rank)
     }))
     .filter((row) => row.year && row.area === "Australia" && ["boy", "girl"].includes(row.sex) && row.name && row.rank);
+}
+
+function parseCsv(text) {
+  const rows = [];
+  let field = "";
+  let row = [];
+  let inQuotes = false;
+
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    const next = text[index + 1];
+
+    if (char === '"' && inQuotes && next === '"') {
+      field += '"';
+      index += 1;
+    } else if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === "," && !inQuotes) {
+      row.push(field);
+      field = "";
+    } else if ((char === "\n" || char === "\r") && !inQuotes) {
+      if (char === "\r" && next === "\n") index += 1;
+      row.push(field);
+      if (row.some((value) => value !== "")) rows.push(row);
+      row = [];
+      field = "";
+    } else {
+      field += char;
+    }
+  }
+
+  row.push(field);
+  if (row.some((value) => value !== "")) rows.push(row);
+  if (!rows.length) return [];
+
+  const headers = rows[0].map((header) => header.trim());
+  return rows.slice(1).map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] || ""])));
+}
+
+async function loadRows() {
+  const bundledRows = window.BABY_NAME_MASTER || [];
+  if (bundledRows.length) return bundledRows;
+
+  const response = await fetch("./data/clean/baby_names_master.csv");
+  if (!response.ok) throw new Error(`Could not load baby name data (${response.status})`);
+  return parseCsv(await response.text());
+}
+
+function setRows(rows) {
+  state.rows = normaliseRows([...rows, ...NATIONAL_REPORT_ROWS]);
 }
 
 function years() {
@@ -99,17 +190,39 @@ function populateYears() {
 
 function rowsForYearSex(year, sex) {
   const rows = state.rows.filter((row) => row.year === year && row.sex === sex);
-  const babyCenterRows = rows.filter((row) => row.source.toLowerCase().includes("babycenter"));
-  return dedupeByName(babyCenterRows.length ? babyCenterRows : rows);
+  if (!rows.length) return [];
+
+  const bestPriority = Math.max(...rows.map(sourcePriority));
+  if (bestPriority > 1) {
+    const primaryRows = rows.filter((row) => sourcePriority(row) === bestPriority);
+    const primaryCutoff = Math.max(...primaryRows.map((row) => row.rank || 0));
+    const fillerRows = rows.filter((row) => sourcePriority(row) < bestPriority && row.rank > primaryCutoff);
+    return dedupeByName([...primaryRows, ...fillerRows]);
+  }
+
+  return dedupeByName(rows);
+}
+
+function sourcePriority(row) {
+  const source = row.source.toLowerCase();
+  const notes = row.notes.toLowerCase();
+  if (source.includes("mccrindle") || source.includes("national report") || notes.includes("national report")) return 3;
+  if (source.includes("calculated australia total")) return 2;
+  if (source.includes("babycenter")) return 1;
+  return 0;
 }
 
 function dedupeByName(rows) {
   const byName = new Map();
   rows.forEach((row) => {
     const existing = byName.get(row.name);
-    if (!existing || row.rank < existing.rank) byName.set(row.name, row);
+    const priority = sourcePriority(row);
+    const existingPriority = existing ? sourcePriority(existing) : -1;
+    if (!existing || priority > existingPriority || (priority === existingPriority && row.rank < existing.rank)) {
+      byName.set(row.name, row);
+    }
   });
-  return [...byName.values()].sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name));
+  return [...byName.values()].sort((a, b) => a.rank - b.rank || sourcePriority(b) - sourcePriority(a) || a.name.localeCompare(b.name));
 }
 
 function rankForNames(names, year, sex) {
@@ -126,48 +239,65 @@ function nameHistory(names, sex) {
   }));
 }
 
+function inferSearchSex(names) {
+  const candidates = ["girl", "boy"].map((sex) => {
+    const history = nameHistory(names, sex);
+    const ranked = history.filter((item) => item.row);
+    const latest = [...ranked].reverse()[0];
+    const score = ranked.reduce((total, item) => total + (101 - item.row.rank), 0);
+    const bestRank = ranked.length ? Math.min(...ranked.map((item) => item.row.rank)) : Infinity;
+    return { sex, rankedCount: ranked.length, latestRank: latest?.row.rank ?? Infinity, bestRank, score };
+  });
+
+  candidates.sort((a, b) =>
+    b.score - a.score ||
+    b.rankedCount - a.rankedCount ||
+    a.latestRank - b.latestRank ||
+    a.bestRank - b.bestRank
+  );
+
+  return candidates[0].score ? candidates[0] : { sex: "girl", rankedCount: 0, latestRank: Infinity, bestRank: Infinity, score: 0 };
+}
+
 function renderSearch() {
   const name = titleCase(els.nameSearch.value);
-  const sex = els.searchSex.value;
-  const sexLabel = sex === "boy" ? "boys" : "girls";
 
   if (!name) {
-    els.searchSummary.textContent = "Type a name to see the last 10 years.";
+    els.searchSummary.textContent = "Type a name to begin.";
+    els.searchSexLabel.textContent = "Auto";
     els.nameStats.innerHTML = "";
     els.yearCards.innerHTML = "";
-    els.trendBody.innerHTML = "";
     drawChart([]);
     return;
   }
 
   const names = searchNames(name);
+  const inferred = inferSearchSex(names);
+  const sex = inferred.sex;
   const history = nameHistory(names, sex);
   const ranked = history.filter((item) => item.row);
   const latest = history[history.length - 1];
   const best = ranked.length ? ranked.reduce((winner, item) => (item.row.rank < winner.row.rank ? item : winner), ranked[0]) : null;
   const shownNames = [...new Set(ranked.map((item) => item.row.name))];
   const label = names.length > 1 ? `${name} (${names.join(" / ")})` : name;
+  els.searchSexLabel.textContent = sex === "boy" ? "Boy" : "Girl";
 
   els.searchSummary.textContent = ranked.length
-    ? `${label} appeared in the top 100 ${sexLabel} list in ${ranked.length} of the last 10 years.`
-    : `${label} has not appeared in the top 100 ${sexLabel} list in the last 10 years.`;
+    ? `Top 100 in ${ranked.length} of 10 years.`
+    : `No top 100 result for ${label}.`;
 
   els.nameStats.innerHTML = [
-    ["This year", latest?.row ? ordinal(latest.row.rank) : "Not top 100"],
-    ["Best rank", best ? `${ordinal(best.row.rank)} in ${best.year}` : "Not top 100"],
-    ["Sex", sex === "boy" ? "Boy" : "Girl"],
-    ["Matched as", shownNames.length ? shownNames.join(", ") : names.join(", ")]
+    ["Latest", latest?.row ? ordinal(latest.row.rank) : "Not top 100"],
+    ["Best", best ? `${ordinal(best.row.rank)} in ${best.year}` : "Not top 100"],
+    ["Listed", `${ranked.length}/10 years`],
+    ["Match", shownNames.length ? shownNames.join(", ") : names.join(", ")]
   ]
-    .map(([label, value]) => `<div class="stat"><span>${label}</span><b>${value}</b></div>`)
-    .join("");
-
-  els.trendBody.innerHTML = history
-    .map((item) => `<tr><td>${item.year}</td><td>${item.row ? ordinal(item.row.rank) : "Not top 100"}</td></tr>`)
+    .map(([label, value]) => `<div class="stat"><span>${label}</span><b>${escapeHtml(value)}</b></div>`)
     .join("");
 
   els.yearCards.innerHTML = history
     .map((item) => `
-      <div class="year-card">
+      <div class="year-card ${item.row ? "" : "is-missing"}">
         <span>${item.year}</span>
         <b>${item.row ? ordinal(item.row.rank) : "Not top 100"}</b>
       </div>
@@ -182,17 +312,23 @@ function renderRankings() {
   const year = Number(els.year.value);
   const limit = Number(els.limit.value || 20);
   const rows = rowsForYearSex(year, sex).slice(0, limit);
-  const sexLabel = sex === "boy" ? "Boys" : "Girls";
+  const sexLabel = sex === "boy" ? "boys" : "girls";
 
-  els.rankingTitle.textContent = `${sexLabel}, ${year}`;
+  els.rankingTitle.textContent = `Top ${sexLabel} names \u2014 ${year}`;
   els.recordCount.textContent = `${rows.length} names`;
   els.rankingBody.innerHTML = rows.length
-    ? rows.map((row) => `<tr><td>${ordinal(row.rank)}</td><td>${row.name}</td></tr>`).join("")
+    ? rows.map((row) => `
+      <tr>
+        <td>${ordinal(row.rank)}</td>
+        <td><button class="name-link" type="button" data-name="${escapeHtml(row.name)}">${escapeHtml(row.name)}</button></td>
+      </tr>
+    `).join("")
     : `<tr><td colspan="2" class="empty">No names found.</td></tr>`;
 }
 
 function drawChart(history) {
   const canvas = els.trendCanvas;
+  hideChartTooltip();
   const rect = canvas.getBoundingClientRect();
   const width = Math.max(Math.floor(rect.width), 320);
   const height = Math.max(Math.floor(rect.height), 220);
@@ -204,42 +340,58 @@ function drawChart(history) {
   const ctx = canvas.getContext("2d");
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = "#fffdf9";
   ctx.fillRect(0, 0, width, height);
-  ctx.strokeStyle = "#d9d3c8";
+  ctx.strokeStyle = "#e8e0d4";
   ctx.strokeRect(0.5, 0.5, width - 1, height - 1);
+  state.chartPoints = [];
 
   if (!history.length) return;
 
   const isSmall = width < 520;
-  const minX = isSmall ? 44 : 62;
-  const maxX = width - (isSmall ? 16 : 28);
-  const minY = 26;
-  const maxY = height - (isSmall ? 42 : 48);
+  const minX = isSmall ? 42 : 58;
+  const maxX = width - (isSmall ? 18 : 30);
+  const minY = isSmall ? 22 : 24;
+  const maxY = height - (isSmall ? 58 : 62);
+  const yearLabelY = height - 16;
+  const missingY = maxY + (yearLabelY - maxY) / 2;
   const maxRank = 100;
 
-  ctx.strokeStyle = "#d9d3c8";
+  ctx.strokeStyle = "#e8e0d4";
+  ctx.lineWidth = 1;
+  [1, 25, 50, 75, 100].forEach((rank) => {
+    const y = minY + ((rank - 1) / (maxRank - 1)) * (maxY - minY);
+    ctx.beginPath();
+    ctx.moveTo(minX, y);
+    ctx.lineTo(maxX, y);
+    ctx.stroke();
+  });
+
+  ctx.strokeStyle = "#cec5b7";
   ctx.beginPath();
   ctx.moveTo(minX, minY);
   ctx.lineTo(minX, maxY);
   ctx.lineTo(maxX, maxY);
   ctx.stroke();
 
-  ctx.fillStyle = "#68645d";
+  ctx.fillStyle = "#7a746b";
   ctx.font = `${isSmall ? 11 : 12}px sans-serif`;
   ctx.fillText("1st", isSmall ? 16 : 24, minY + 4);
   ctx.fillText("100th", isSmall ? 4 : 14, maxY + 4);
 
   const points = history.map((item, index) => {
     const x = history.length === 1 ? (minX + maxX) / 2 : minX + (index / (history.length - 1)) * (maxX - minX);
-    const y = item.row ? minY + ((item.row.rank - 1) / (maxRank - 1)) * (maxY - minY) : maxY + 18;
+    const y = item.row ? minY + ((item.row.rank - 1) / (maxRank - 1)) * (maxY - minY) : missingY;
     return { x, y, item };
   });
+  state.chartPoints = points;
 
   const rankedPoints = points.filter((point) => point.item.row);
   if (rankedPoints.length > 1) {
     ctx.strokeStyle = "#0f766e";
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 3.5;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     ctx.beginPath();
     rankedPoints.forEach((point, index) => {
       if (index === 0) ctx.moveTo(point.x, point.y);
@@ -249,18 +401,55 @@ function drawChart(history) {
   }
 
   points.forEach((point) => {
-    ctx.fillStyle = point.item.row ? "#0f766e" : "#c8c0b5";
+    ctx.fillStyle = point.item.row ? "#0f766e" : "#8f877c";
     ctx.beginPath();
-    ctx.arc(point.x, point.y, point.item.row ? 5 : 4, 0, Math.PI * 2);
+    ctx.arc(point.x, point.y, point.item.row ? 5.5 : 5, 0, Math.PI * 2);
     ctx.fill();
+    if (point.item.row) {
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    } else {
+      ctx.strokeStyle = "#fffdf9";
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    }
   });
 
   ctx.fillStyle = "#68645d";
   points.forEach((point) => {
     if (!isSmall || point.item.year % 2 === 1 || point.item.year === history[history.length - 1].year) {
-      ctx.fillText(String(point.item.year), point.x - 14, height - 16);
+      ctx.fillText(String(point.item.year), point.x - 14, yearLabelY);
     }
   });
+}
+
+function showChartTooltip(point) {
+  if (!els.chartTooltip) return;
+  const rect = els.trendCanvas.getBoundingClientRect();
+  const left = Math.min(Math.max(point.x, 54), rect.width - 54);
+  const label = point.item.row ? ordinal(point.item.row.rank) : "Not top 100";
+  els.chartTooltip.textContent = `${point.item.year}: ${label}`;
+  els.chartTooltip.style.left = `${left}px`;
+  els.chartTooltip.style.top = `${point.y}px`;
+  els.chartTooltip.classList.toggle("is-below", point.y < 54);
+  els.chartTooltip.classList.add("is-visible");
+}
+
+function hideChartTooltip() {
+  if (!els.chartTooltip) return;
+  els.chartTooltip.classList.remove("is-visible");
+}
+
+function updateChartTooltip(event) {
+  const rect = els.trendCanvas.getBoundingClientRect();
+  const source = event.touches?.[0] || event;
+  const x = source.clientX - rect.left;
+  const y = source.clientY - rect.top;
+  const hit = state.chartPoints.find((point) => Math.hypot(point.x - x, point.y - y) <= 16);
+
+  if (hit) showChartTooltip(hit);
+  else hideChartTooltip();
 }
 
 function renderAll() {
@@ -268,15 +457,39 @@ function renderAll() {
   renderRankings();
 }
 
+function searchRankingName(name) {
+  els.nameSearch.value = name;
+  renderSearch();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  els.nameSearch.focus();
+}
+
 els.sex.addEventListener("change", renderRankings);
-els.searchSex.addEventListener("change", renderSearch);
 els.year.addEventListener("change", renderRankings);
 els.limit.addEventListener("input", renderRankings);
 els.nameSearch.addEventListener("input", renderSearch);
+els.rankingBody.addEventListener("click", (event) => {
+  const button = event.target.closest(".name-link");
+  if (button) searchRankingName(button.dataset.name);
+});
+els.trendCanvas.addEventListener("mousemove", updateChartTooltip);
+els.trendCanvas.addEventListener("mouseleave", hideChartTooltip);
+els.trendCanvas.addEventListener("touchstart", updateChartTooltip, { passive: true });
+els.trendCanvas.addEventListener("touchmove", updateChartTooltip, { passive: true });
 window.addEventListener("resize", () => renderSearch());
 
-populateYears();
-els.sex.value = "girl";
-els.searchSex.value = "girl";
-els.nameSearch.value = "Rebecca";
-renderAll();
+async function initialise() {
+  try {
+    setRows(await loadRows());
+    populateYears();
+    els.sex.value = "girl";
+    renderAll();
+  } catch (error) {
+    console.error(error);
+    els.searchSummary.textContent = "Name data could not be loaded.";
+    els.searchSexLabel.textContent = "Auto";
+    drawChart([]);
+  }
+}
+
+initialise();

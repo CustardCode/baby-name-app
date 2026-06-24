@@ -13,5 +13,6 @@ Ranked by usefulness for expanding `data/clean/baby_names_master.csv`.
 | 7 | Queensland 2024 registry release via Courier-Mail | QLD 2024 | Top 10, counts for rank 1 | Useful recent update. |
 | 8 | Northern Territory 2025 Attorney-General data via Courier-Mail | NT 2025 | Multiple exact counts | Small dataset but strong count quality. |
 | 9 | 7News/McCrindle Australia 2024 national report | Australia 2024 | National ranks | Rank-only national reference; kept separate from calculated Australia totals. |
+| 10 | News.com.au/McCrindle Australia 2025 national report | Australia 2025 | National ranks | Top 10 boys and girls imported as the primary 2025 national ranking source. BabyCenter fills after the published top 10. |
 
 Important rule used in the cleaned data: absence from a published top list is marked as unavailable. It is never treated as zero births.

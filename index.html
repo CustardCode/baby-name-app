@@ -10,50 +10,30 @@
     <main class="shell">
       <section class="intro">
         <div>
-          <p class="eyebrow">Australia baby names</p>
-          <h1>Find a name.</h1>
+          <p class="eyebrow">Australian baby names</p>
+          <h1>Search a name</h1>
         </div>
-        <p class="note">
-          Pick a year, choose boys or girls, or search a name.
-        </p>
       </section>
 
       <article class="panel search-panel">
         <div class="search-hero">
-          <label>
-            Search a name
-            <input id="nameSearch" type="search" placeholder="Rebecca" autocomplete="off" />
-          </label>
-          <label>
-            Sex
-            <select id="searchSexSelect">
-              <option value="girl">Girl</option>
-              <option value="boy">Boy</option>
-            </select>
-          </label>
+          <input id="nameSearch" type="search" placeholder="..." autocomplete="off" aria-label="Search a name" />
+          <div class="auto-sex" aria-live="polite">
+            <b id="searchSexLabel">Girl</b>
+          </div>
         </div>
         <div id="searchSummary" class="search-summary"></div>
         <div id="nameStats" class="stats"></div>
         <div class="chart-card">
           <canvas id="trendCanvas" aria-label="Name ranking chart"></canvas>
+          <div id="chartTooltip" class="chart-tooltip" role="status"></div>
         </div>
         <div id="yearCards" class="year-cards"></div>
-        <div class="table-wrap trend-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Year</th>
-                <th>Rank</th>
-              </tr>
-            </thead>
-            <tbody id="trendBody"></tbody>
-          </table>
-        </div>
       </article>
 
       <section class="controls" aria-label="Filters">
         <label>
-          Sex
+          Gender
           <select id="sexSelect">
             <option value="boy">Boy</option>
             <option value="girl">Girl</option>
@@ -66,7 +46,7 @@
         </label>
 
         <label>
-          Show top
+          Show
           <input id="limitInput" type="number" min="5" max="100" step="5" value="20" />
         </label>
       </section>
@@ -75,8 +55,8 @@
         <article class="panel">
           <div class="panel-heading">
             <div>
-              <p class="eyebrow">Top names</p>
-              <h2 id="rankingTitle">Top names</h2>
+              <p class="eyebrow">Ranking list</p>
+              <h2 id="rankingTitle">Ranking list</h2>
             </div>
             <span id="recordCount" class="pill"></span>
           </div>
@@ -93,6 +73,10 @@
           </div>
         </article>
       </section>
+
+      <p class="data-note">
+        The app uses the best public national ranking available for each year, then fills gaps from BabyCenter top-100 lists while keeping published ranks. Not top 100 means the name was outside the available published list for that year.
+      </p>
     </main>
 
     <script src="./data/clean/baby_names_master.js"></script>
