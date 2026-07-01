@@ -3,94 +3,139 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Australian Baby Name Explorer</title>
+    <title>Australian Baby Name Rankings | Search Name Popularity by Year</title>
+    <meta name="description" content="Search Australian baby name rankings by year, gender and popularity. Compare baby names, view trends, and explore the most popular boys and girls names in Australia." />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#4eb980" />
+    <link rel="canonical" href="https://custardcode.github.io/baby-name-app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Australian Baby Name Rankings" />
+    <meta property="og:description" content="Search baby name popularity in Australia by year, gender and ranking history." />
+    <meta property="og:url" content="https://custardcode.github.io/baby-name-app/" />
+    <meta property="og:site_name" content="Australian Baby Name Rankings" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Australian Baby Name Rankings" />
+    <meta name="twitter:description" content="Search Australian baby name rankings, popularity and trends by year and gender." />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body>
-    <main class="shell">
-      <section class="intro">
-        <div>
-          <p class="eyebrow">Australian baby names</p>
-          <h1>Search a name</h1>
+  <body class="directive-page home-page">
+    <header id="header">
+      <span class="logo" aria-hidden="true">A</span>
+      <h1>Australian baby names</h1>
+      <p>Search a name, see its popularity, then explore the names rising through Australia.</p>
+    </header>
+
+    <main id="main">
+      <section class="box feature container search-feature">
+        <div class="feature-content">
+          <header>
+            <h2>Name explorer</h2>
+            <p>Search popularity</p>
+          </header>
+          <div class="search-hero">
+            <input id="nameSearch" type="search" placeholder="..." autocomplete="off" aria-label="Search a name" />
+            <div class="auto-sex" aria-live="polite">
+              <b id="searchSexLabel">Girl</b>
+            </div>
+          </div>
+          <div id="searchSummary" class="search-summary"></div>
+          <div id="nameStats" class="stats"></div>
         </div>
       </section>
 
-      <article class="panel search-panel">
-        <div class="panel-kicker">
-          <span>Name history</span>
-        </div>
-        <div class="search-hero">
-          <input id="nameSearch" type="search" placeholder="..." autocomplete="off" aria-label="Search a name" />
-          <div class="auto-sex" aria-live="polite">
-            <b id="searchSexLabel">Girl</b>
-          </div>
-        </div>
-        <div id="searchSummary" class="search-summary"></div>
-        <div id="nameStats" class="stats"></div>
+      <section class="box container chart-section">
         <div class="chart-card">
+          <div class="chart-title">
+            <span>Ranking history</span>
+            <small>Lower is more popular</small>
+          </div>
           <canvas id="trendCanvas" aria-label="Name ranking chart"></canvas>
           <div id="chartTooltip" class="chart-tooltip" role="status"></div>
         </div>
         <div id="yearCards" class="year-cards"></div>
-      </article>
-
-      <section class="browse-section" aria-label="Browse top names section">
-        <div class="section-divider">
-          <div>
-            <p class="eyebrow">Browse top names</p>
-            <h2>Choose a year and gender</h2>
-          </div>
-          <span>Top list</span>
-        </div>
-
-        <section class="controls" aria-label="Filters">
-          <label>
-            Gender
-            <select id="sexSelect">
-              <option value="boy">Boy</option>
-              <option value="girl">Girl</option>
-            </select>
-          </label>
-
-          <label>
-            Year
-            <select id="yearSelect"></select>
-          </label>
-
-          <label>
-            Show
-            <input id="limitInput" type="number" min="5" max="100" step="5" value="20" />
-          </label>
-        </section>
-
-        <section class="grid">
-          <article class="panel">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">Ranking list</p>
-                <h2 id="rankingTitle">Ranking list</h2>
-              </div>
-              <span id="recordCount" class="pill"></span>
-            </div>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                  </tr>
-                </thead>
-                <tbody id="rankingBody"></tbody>
-              </table>
-            </div>
-          </article>
-        </section>
       </section>
 
-      <p class="data-note">
-        The app uses the best public national ranking available for each year.
-      </p>
+      <header class="major container medium">
+        <h2>Browse the annual lists</h2>
+        <p>Choose a gender and year to scan the top names.</p>
+      </header>
+
+      <section class="box feature container browse-feature">
+        <div class="feature-content">
+          <header>
+            <h2>Top rankings</h2>
+            <p>Filter the list</p>
+          </header>
+          <section class="controls" aria-label="Filters">
+            <label>
+              Gender
+              <select id="sexSelect">
+                <option value="boy">Boy</option>
+                <option value="girl">Girl</option>
+              </select>
+            </label>
+
+            <label>
+              Year
+              <select id="yearSelect"></select>
+            </label>
+
+            <label>
+              Show
+              <input id="limitInput" type="number" min="5" max="100" step="5" value="20" />
+            </label>
+          </section>
+        </div>
+      </section>
+
+      <section class="box container ranking-box">
+        <header>
+          <h2>Current ranking list</h2>
+          <p>Tap a name to view its history</p>
+        </header>
+        <article class="ranking-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Ranking list</p>
+              <h2 id="rankingTitle">Ranking list</h2>
+            </div>
+            <span id="recordCount" class="pill"></span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody id="rankingBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <footer class="major container medium">
+        <h2>Keep exploring</h2>
+        <p>The app uses the best public national ranking available for each year.</p>
+        <div class="seo-links">
+          <a href="./rankings/top-girls-2025.html">Top girls 2025</a>
+          <a href="./rankings/top-boys-2025.html">Top boys 2025</a>
+          <a href="./names/girls/alice.html">Alice</a>
+          <a href="./names/boys/oliver.html">Oliver</a>
+          <a href="./names/girls/matilda.html">Matilda</a>
+          <a href="./names/boys/jasper.html">Jasper</a>
+          <a href="./data-sources.html">Data sources</a>
+        </div>
+      </footer>
     </main>
+
+    <footer id="site-footer">
+      <div class="container medium">
+        <h2>Made for finding a name that feels right</h2>
+        <p>Search, compare and follow the popularity story behind Australian baby names.</p>
+      </div>
+    </footer>
 
     <script src="./data/clean/baby_names_master.js"></script>
     <script src="./app.js"></script>

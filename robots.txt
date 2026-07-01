@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://custardcode.github.io/baby-name-app/sitemap.xml

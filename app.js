@@ -73,6 +73,35 @@ const els = {
   chartTooltip: document.querySelector("#chartTooltip")
 };
 
+let initialisingFromUrl = false;
+let lastTrackedSearchKey = "";
+
+function trackEvent(eventName, params = {}) {
+  try {
+    if (typeof window.gtag !== "function") return;
+    window.gtag("event", eventName, params);
+  } catch (_) {
+    // Analytics must never interrupt the app.
+  }
+}
+
+function safeSearchTerm(value) {
+  const term = titleCase(value).slice(0, 40);
+  return /^[A-Za-z][A-Za-z '-]{0,39}$/.test(term) ? term : "";
+}
+
+function slugify(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function sexPlural(sex) {
+  return sex === "boy" ? "boys" : "girls";
+}
+
 function titleCase(value) {
   return String(value || "")
     .trim()
@@ -286,14 +315,22 @@ function renderSearch() {
     ? `Top 100 in ${ranked.length} of 10 years.`
     : `No top 100 result for ${label}.`;
 
-  els.nameStats.innerHTML = [
+  const detailName = shownNames[0] || names[0];
+  const detailSlug = slugify(detailName);
+  const detailHref = detailSlug ? `./names/${sexPlural(sex)}/${detailSlug}.html` : "";
+  const statCards = [
     ["Latest", latest?.row ? ordinal(latest.row.rank) : "Not top 100"],
     ["Best", best ? `${ordinal(best.row.rank)} in ${best.year}` : "Not top 100"],
-    ["Listed", `${ranked.length}/10 years`],
-    ["Match", shownNames.length ? shownNames.join(", ") : names.join(", ")]
-  ]
-    .map(([label, value]) => `<div class="stat"><span>${label}</span><b>${escapeHtml(value)}</b></div>`)
-    .join("");
+    ["Listed", `${ranked.length}/10 years`]
+  ].map(([label, value]) => `<div class="stat"><span>${label}</span><b>${escapeHtml(value)}</b></div>`);
+
+  statCards.push(
+    detailHref
+      ? `<a class="stat stat-link" href="${detailHref}" aria-label="View full profile for ${escapeHtml(detailName)}"><span>View full profile</span><b>${escapeHtml(detailName)} <em aria-hidden="true">→</em></b></a>`
+      : `<div class="stat"><span>View full profile</span><b>N/A</b></div>`
+  );
+
+  els.nameStats.innerHTML = statCards.join("");
 
   els.yearCards.innerHTML = history
     .map((item) => `
@@ -305,22 +342,39 @@ function renderSearch() {
     .join("");
 
   drawChart(history);
+
+  const safeTerm = safeSearchTerm(name);
+  if (safeTerm && !initialisingFromUrl) {
+    const searchKey = `${safeTerm}|${sex}|${ranked.length}`;
+    if (searchKey !== lastTrackedSearchKey) {
+      lastTrackedSearchKey = searchKey;
+      trackEvent("name_search", {
+        search_term: safeTerm,
+        gender: sex,
+        result_found: ranked.length > 0,
+        listed_years_count: ranked.length
+      });
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.set("name", safeTerm);
+    window.history.replaceState({}, "", url);
+  }
 }
 
 function renderRankings() {
   const sex = els.sex.value;
   const year = Number(els.year.value);
-  const limit = Number(els.limit.value || 20);
-  const rows = rowsForYearSex(year, sex).slice(0, limit);
+  const limit = Math.min(100, Math.max(1, Number(els.limit.value || 20)));
+  const rows = rowsForYearSex(year, sex).filter((row) => row.rank <= limit);
   const sexLabel = sex === "boy" ? "boys" : "girls";
 
   els.rankingTitle.textContent = `Top ${sexLabel} names \u2014 ${year}`;
-  els.recordCount.textContent = `${rows.length} names`;
+  els.recordCount.textContent = `Top ${limit}`;
   els.rankingBody.innerHTML = rows.length
     ? rows.map((row) => `
       <tr>
         <td>${ordinal(row.rank)}</td>
-        <td><button class="name-link" type="button" data-name="${escapeHtml(row.name)}">${escapeHtml(row.name)}</button></td>
+        <td><button class="name-link" type="button" data-name="${escapeHtml(row.name)}" data-rank="${row.rank}">${escapeHtml(row.name)}</button></td>
       </tr>
     `).join("")
     : `<tr><td colspan="2" class="empty">No names found.</td></tr>`;
@@ -470,13 +524,38 @@ function searchRankingName(name) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-els.sex.addEventListener("change", renderRankings);
-els.year.addEventListener("change", renderRankings);
-els.limit.addEventListener("input", renderRankings);
+function trackFilterChange() {
+  trackEvent("top_list_filter_change", {
+    year: Number(els.year.value),
+    gender: els.sex.value,
+    show_count: Number(els.limit.value || 20)
+  });
+}
+
+els.sex.addEventListener("change", () => {
+  renderRankings();
+  trackFilterChange();
+});
+els.year.addEventListener("change", () => {
+  renderRankings();
+  trackFilterChange();
+});
+els.limit.addEventListener("input", () => {
+  renderRankings();
+  trackFilterChange();
+});
 els.nameSearch.addEventListener("input", renderSearch);
 els.rankingBody.addEventListener("click", (event) => {
   const button = event.target.closest(".name-link");
-  if (button) searchRankingName(button.dataset.name);
+  if (button) {
+    trackEvent("clicked_ranking_name", {
+      name: safeSearchTerm(button.dataset.name || ""),
+      rank: Number(button.dataset.rank || 0),
+      year: Number(els.year.value),
+      gender: els.sex.value
+    });
+    searchRankingName(button.dataset.name);
+  }
 });
 els.trendCanvas.addEventListener("mousemove", updateChartTooltip);
 els.trendCanvas.addEventListener("mouseleave", hideChartTooltip);
@@ -489,7 +568,13 @@ async function initialise() {
     setRows(await loadRows());
     populateYears();
     els.sex.value = "girl";
+    const urlName = safeSearchTerm(new URLSearchParams(window.location.search).get("name") || "");
+    if (urlName) {
+      initialisingFromUrl = true;
+      els.nameSearch.value = urlName;
+    }
     renderAll();
+    initialisingFromUrl = false;
   } catch (error) {
     console.error(error);
     els.searchSummary.textContent = "Name data could not be loaded.";
