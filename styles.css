@@ -148,9 +148,10 @@ b {
 
 #header .logo {
   align-items: center;
-  background: var(--green);
+  background:
+    url("./assets/site-logo-hero.png") center 52% / contain no-repeat;
   border-radius: 100%;
-  color: #fff;
+  color: transparent;
   display: inline-flex;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 1.5em 4em rgba(0, 0, 0, 0.26);
   font-size: 2.15em;
@@ -160,6 +161,7 @@ b {
   line-height: 2.55em;
   margin: 0 0 1.15em;
   position: relative;
+  text-indent: -9999px;
   width: 2.55em;
   z-index: 2;
 }
@@ -457,7 +459,7 @@ footer.major p {
 .search-hero {
   display: grid;
   gap: 1em;
-  grid-template-columns: minmax(0, 1fr) 7em;
+  grid-template-columns: minmax(0, 1fr) 12.5em;
   margin-bottom: 1em;
 }
 
@@ -495,9 +497,66 @@ select:focus {
   border-radius: 4px;
   color: var(--heading);
   display: flex;
+  flex-direction: column;
+  gap: 0.45em;
   justify-content: center;
   min-height: 3.875em;
-  padding: 0 1em;
+  padding: 0.55em;
+}
+
+.auto-sex span {
+  color: #888;
+  display: block;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.125em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.auto-sex:not(.is-comparison) span {
+  color: var(--heading);
+  font-size: 1.25em;
+  letter-spacing: 0;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+.search-sex-toggle {
+  display: none;
+  gap: 0.35em;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+
+.auto-sex.is-comparison .search-sex-toggle {
+  display: grid;
+}
+
+.search-sex-toggle button {
+  appearance: none;
+  background: #fff;
+  border: solid 1px rgba(78, 185, 128, 0.35);
+  border-radius: 4px;
+  color: var(--heading);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9em;
+  font-weight: 700;
+  min-height: 2.25em;
+  padding: 0 0.5em;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.search-sex-toggle button.is-active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.search-sex-toggle button:disabled {
+  cursor: default;
+  opacity: 0.45;
 }
 
 .search-summary {
@@ -640,6 +699,42 @@ canvas {
   color: var(--missing);
 }
 
+.section-divider {
+  background:
+    linear-gradient(90deg, transparent, rgba(78, 185, 128, 0.42), rgba(167, 119, 24, 0.32), transparent);
+  height: 4px;
+  margin: -0.75em auto 4.5em;
+  position: relative;
+}
+
+.section-divider::before {
+  background:
+    linear-gradient(135deg, rgba(78, 185, 128, 0.09), rgba(167, 119, 24, 0.07));
+  border-bottom: solid 1px rgba(78, 185, 128, 0.2);
+  border-top: solid 1px rgba(167, 119, 24, 0.14);
+  clip-path: polygon(0 0, 50% 100%, 100% 0, 100% 62%, 50% 100%, 0 62%);
+  content: "";
+  height: 3.5em;
+  left: 50%;
+  position: absolute;
+  top: -1.75em;
+  transform: translateX(-50%);
+  width: min(28em, 72vw);
+}
+
+.section-divider::after {
+  background: #fff;
+  border-left: solid 1px rgba(78, 185, 128, 0.2);
+  border-top: solid 1px rgba(167, 119, 24, 0.14);
+  content: "";
+  height: 1.5em;
+  left: 50%;
+  position: absolute;
+  top: -0.75em;
+  transform: translateX(-50%) rotate(45deg);
+  width: 1.5em;
+}
+
 .controls {
   display: grid;
   gap: 1em;
@@ -752,6 +847,118 @@ tbody tr:hover {
   gap: 0.75em;
   justify-content: center;
   margin-top: 1.5em;
+}
+
+.compact-link-panel {
+  padding-bottom: 2.75em;
+  padding-top: 2.75em;
+}
+
+.rank-unlisted {
+  color: rgba(80, 76, 87, 0.62);
+  font-weight: 600;
+}
+
+.unlisted-row td {
+  background: rgba(246, 242, 235, 0.42);
+}
+
+.discovery-list {
+  padding: 2.5em;
+}
+
+.watchlist-note {
+  background: linear-gradient(135deg, rgba(78, 185, 128, 0.1), rgba(176, 119, 32, 0.08)), #fff;
+  border: solid 1px var(--line);
+  color: rgba(80, 76, 87, 0.78);
+  margin: 0 auto 2.75em;
+  max-width: 52em;
+  padding: 1.25em 1.5em;
+  text-align: center;
+}
+
+.watchlist-note strong {
+  color: var(--green-dark);
+  display: block;
+  font-family: var(--font-heading);
+  letter-spacing: 0.075em;
+  margin-bottom: 0.35em;
+  text-transform: uppercase;
+}
+
+.discovery-section-header {
+  margin: 0 auto 2em;
+  max-width: 44em;
+  text-align: center;
+}
+
+.discovery-section-header:not(:first-child) {
+  margin-top: 3.25em;
+}
+
+.discovery-section-header h3 {
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 1.35em;
+  letter-spacing: 0.18em;
+  margin: 0 0 0.75em;
+  text-transform: uppercase;
+}
+
+.discovery-section-header p {
+  color: rgba(80, 76, 87, 0.72);
+  margin: 0;
+}
+
+.discovery-grid {
+  display: grid;
+  gap: 1em;
+  grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+}
+
+.discovery-card {
+  background: linear-gradient(135deg, rgba(78, 185, 128, 0.08), rgba(176, 119, 32, 0.05)), #fff;
+  border: solid 1px var(--line);
+  color: var(--text);
+  display: block;
+  min-height: 8.75em;
+  padding: 1.25em;
+  text-decoration: none;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.discovery-card:hover,
+.discovery-card:focus-visible {
+  border-color: rgba(78, 185, 128, 0.55);
+  box-shadow: 0 1.25em 3em rgba(0, 0, 0, 0.075);
+  transform: translateY(-2px);
+}
+
+.discovery-card span {
+  color: var(--gold);
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.75em;
+  font-weight: 800;
+  letter-spacing: 0.075em;
+  margin-bottom: 0.75em;
+  text-transform: uppercase;
+}
+
+.discovery-card b {
+  color: var(--green-dark);
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.35em;
+  line-height: 1.1;
+}
+
+.discovery-card em {
+  color: rgba(80, 76, 87, 0.72);
+  display: block;
+  font-style: normal;
+  line-height: 1.45;
+  margin-top: 0.75em;
 }
 
 #site-footer {
@@ -899,6 +1106,10 @@ tbody tr:hover {
   .year-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .section-divider {
+    margin: -0.5em auto 3.75em;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -961,6 +1172,10 @@ tbody tr:hover {
   .stats,
   .glance-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-divider {
+    margin: 0 auto 3em;
   }
 
   .button,

@@ -1,6 +1,8 @@
 const state = {
   rows: [],
-  chartPoints: []
+  chartPoints: [],
+  searchSexOverride: null,
+  lastSearchName: ""
 };
 
 const NATIONAL_REPORT_ROWS = [
@@ -60,6 +62,7 @@ const NAME_GROUPS = [
 const els = {
   sex: document.querySelector("#sexSelect"),
   searchSexLabel: document.querySelector("#searchSexLabel"),
+  searchSexButtons: [...document.querySelectorAll("[data-search-sex]")],
   year: document.querySelector("#yearSelect"),
   limit: document.querySelector("#limitInput"),
   rankingTitle: document.querySelector("#rankingTitle"),
@@ -288,12 +291,42 @@ function inferSearchSex(names) {
   return candidates[0].score ? candidates[0] : { sex: "girl", rankedCount: 0, latestRank: Infinity, bestRank: Infinity, score: 0 };
 }
 
+function sexSearchOptions(names) {
+  return Object.fromEntries(["boy", "girl"].map((sex) => {
+    const history = nameHistory(names, sex);
+    const ranked = history.filter((item) => item.row);
+    const allRanked = years()
+      .map((year) => ({ year, row: rankForNames(names, year, sex) }))
+      .filter((item) => item.row);
+    return [sex, { history, ranked, allRanked }];
+  }));
+}
+
+function updateSearchSexToggle(activeSex, options, hasName, canCompare) {
+  const autoSex = els.searchSexLabel.closest(".auto-sex");
+  if (autoSex) autoSex.classList.toggle("is-comparison", Boolean(canCompare));
+
+  els.searchSexButtons.forEach((button) => {
+    const sex = button.dataset.searchSex;
+    const hasResults = Boolean(options?.[sex]?.allRanked.length);
+    button.classList.toggle("is-active", hasName && canCompare && sex === activeSex);
+    button.disabled = !hasName || !canCompare;
+    button.setAttribute("aria-pressed", hasName && sex === activeSex ? "true" : "false");
+    button.title = hasName && canCompare && !hasResults ? `No top 100 ${sex} result found` : "";
+  });
+}
+
 function renderSearch() {
   const name = titleCase(els.nameSearch.value);
+  if (name !== state.lastSearchName) {
+    state.lastSearchName = name;
+    state.searchSexOverride = null;
+  }
 
   if (!name) {
     els.searchSummary.textContent = "Type a name to begin.";
     els.searchSexLabel.textContent = "Auto";
+    updateSearchSexToggle("girl", null, false, false);
     els.nameStats.innerHTML = "";
     els.yearCards.innerHTML = "";
     drawChart([]);
@@ -302,14 +335,20 @@ function renderSearch() {
 
   const names = searchNames(name);
   const inferred = inferSearchSex(names);
-  const sex = inferred.sex;
-  const history = nameHistory(names, sex);
-  const ranked = history.filter((item) => item.row);
+  const options = sexSearchOptions(names);
+  const hasBoth = Boolean(options.boy.allRanked.length && options.girl.allRanked.length);
+  if (!hasBoth) state.searchSexOverride = null;
+  const sex = hasBoth && state.searchSexOverride ? state.searchSexOverride : inferred.sex;
+  const history = options[sex].history;
+  const ranked = options[sex].ranked;
   const latest = history[history.length - 1];
   const best = ranked.length ? ranked.reduce((winner, item) => (item.row.rank < winner.row.rank ? item : winner), ranked[0]) : null;
   const shownNames = [...new Set(ranked.map((item) => item.row.name))];
   const label = names.length > 1 ? `${name} (${names.join(" / ")})` : name;
-  els.searchSexLabel.textContent = sex === "boy" ? "Boy" : "Girl";
+  els.searchSexLabel.textContent = hasBoth
+    ? "Compare"
+    : sex === "boy" ? "Boy" : "Girl";
+  updateSearchSexToggle(sex, options, true, hasBoth);
 
   els.searchSummary.textContent = ranked.length
     ? `Top 100 in ${ranked.length} of 10 years.`
@@ -357,6 +396,8 @@ function renderSearch() {
     }
     const url = new URL(window.location.href);
     url.searchParams.set("name", safeTerm);
+    if (state.searchSexOverride) url.searchParams.set("sex", state.searchSexOverride);
+    else url.searchParams.delete("sex");
     window.history.replaceState({}, "", url);
   }
 }
@@ -518,8 +559,10 @@ function renderAll() {
   renderRankings();
 }
 
-function searchRankingName(name) {
+function searchRankingName(name, sex) {
   els.nameSearch.value = name;
+  state.lastSearchName = titleCase(name);
+  state.searchSexOverride = sex;
   renderSearch();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -545,6 +588,13 @@ els.limit.addEventListener("input", () => {
   trackFilterChange();
 });
 els.nameSearch.addEventListener("input", renderSearch);
+els.searchSexButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (button.disabled) return;
+    state.searchSexOverride = button.dataset.searchSex;
+    renderSearch();
+  });
+});
 els.rankingBody.addEventListener("click", (event) => {
   const button = event.target.closest(".name-link");
   if (button) {
@@ -554,7 +604,7 @@ els.rankingBody.addEventListener("click", (event) => {
       year: Number(els.year.value),
       gender: els.sex.value
     });
-    searchRankingName(button.dataset.name);
+    searchRankingName(button.dataset.name, els.sex.value);
   }
 });
 els.trendCanvas.addEventListener("mousemove", updateChartTooltip);
@@ -569,9 +619,11 @@ async function initialise() {
     populateYears();
     els.sex.value = "girl";
     const urlName = safeSearchTerm(new URLSearchParams(window.location.search).get("name") || "");
+    const urlSex = new URLSearchParams(window.location.search).get("sex");
     if (urlName) {
       initialisingFromUrl = true;
       els.nameSearch.value = urlName;
+      if (["boy", "girl"].includes(urlSex)) state.searchSexOverride = urlSex;
     }
     renderAll();
     initialisingFromUrl = false;

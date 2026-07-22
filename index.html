@@ -3,20 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Australian Baby Name Rankings | Search Name Popularity by Year</title>
-    <meta name="description" content="Search Australian baby name rankings by year, gender and popularity. Compare baby names, view trends, and explore the most popular boys and girls names in Australia." />
+    <title>Australian Baby Names | Meanings, Rankings & Popularity</title>
+    <meta name="description" content="Search Australian baby names by meaning, popularity and yearly ranking. Explore boys and girls names, compare trends, and browse the top baby names in Australia." />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#4eb980" />
-    <link rel="canonical" href="https://custardcode.github.io/baby-name-app/" />
+    <link rel="canonical" href="https://www.babynamesaustralia.com/" />
+    <link rel="icon" href="./assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Australian Baby Name Rankings" />
-    <meta property="og:description" content="Search baby name popularity in Australia by year, gender and ranking history." />
-    <meta property="og:url" content="https://custardcode.github.io/baby-name-app/" />
+    <meta property="og:title" content="Australian Baby Names" />
+    <meta property="og:description" content="Search Australian baby name meanings, popularity and yearly ranking history." />
+    <meta property="og:url" content="https://www.babynamesaustralia.com/" />
     <meta property="og:site_name" content="Australian Baby Name Rankings" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Australian Baby Name Rankings" />
-    <meta name="twitter:description" content="Search Australian baby name rankings, popularity and trends by year and gender." />
+    <meta property="og:image" content="https://www.babynamesaustralia.com/assets/social-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Australian Baby Names search and ranking explorer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Australian Baby Names" />
+    <meta name="twitter:description" content="Search Australian baby name meanings, popularity and yearly ranking history." />
+    <meta name="twitter:image" content="https://www.babynamesaustralia.com/assets/social-preview.png" />
     <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Australian Baby Name Rankings","url":"https://www.babynamesaustralia.com/","description":"Search Australian baby names by meaning, popularity and yearly ranking.","potentialAction":{"@type":"SearchAction","target":"https://www.babynamesaustralia.com/?name={search_term_string}","query-input":"required name=search_term_string"}}</script>
   </head>
   <body class="directive-page home-page">
     <header id="header">
@@ -26,6 +35,11 @@
     </header>
 
     <main id="main">
+      <header class="major container medium">
+        <h2>Start with a name you love</h2>
+        <p>Type any baby name to see its Australian ranking history.</p>
+      </header>
+
       <section class="box feature container search-feature">
         <div class="feature-content">
           <header>
@@ -35,7 +49,11 @@
           <div class="search-hero">
             <input id="nameSearch" type="search" placeholder="..." autocomplete="off" aria-label="Search a name" />
             <div class="auto-sex" aria-live="polite">
-              <b id="searchSexLabel">Girl</b>
+              <span id="searchSexLabel">Auto</span>
+              <div class="search-sex-toggle" aria-label="Choose boy or girl ranking">
+                <button id="searchGirlButton" type="button" data-search-sex="girl">Girl</button>
+                <button id="searchBoyButton" type="button" data-search-sex="boy">Boy</button>
+              </div>
             </div>
           </div>
           <div id="searchSummary" class="search-summary"></div>
@@ -55,10 +73,7 @@
         <div id="yearCards" class="year-cards"></div>
       </section>
 
-      <header class="major container medium">
-        <h2>Browse the annual lists</h2>
-        <p>Choose a gender and year to scan the top names.</p>
-      </header>
+      <div class="section-divider container" aria-hidden="true"></div>
 
       <section class="box feature container browse-feature">
         <div class="feature-content">
@@ -121,6 +136,13 @@
         <div class="seo-links">
           <a href="./rankings/top-girls-2025.html">Top girls 2025</a>
           <a href="./rankings/top-boys-2025.html">Top boys 2025</a>
+          <a href="./names/girls/">All girl names</a>
+          <a href="./names/boys/">All boy names</a>
+          <a href="./popular-baby-girl-names-australia.html">Popular girl names</a>
+          <a href="./popular-baby-boy-names-australia.html">Popular boy names</a>
+          <a href="./baby-names-2026-watchlist.html">2026 watchlist</a>
+          <a href="./unique-australian-baby-names.html">Unique names</a>
+          <a href="./classic-baby-names.html">Classic names</a>
           <a href="./names/girls/alice.html">Alice</a>
           <a href="./names/boys/oliver.html">Oliver</a>
           <a href="./names/girls/matilda.html">Matilda</a>
