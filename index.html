@@ -139,6 +139,7 @@
           <a href="./names/boys/">All boy names</a>
           <a href="./popular-baby-girl-names-australia.html">Popular girl names</a>
           <a href="./popular-baby-boy-names-australia.html">Popular boy names</a>
+          <a href="./baby-name-popularity-checker-australia.html">Popularity checker</a>
           <a href="./baby-names-2026-watchlist.html">2026 watchlist</a>
           <a href="./unique-australian-baby-names.html">Unique names</a>
           <a href="./classic-baby-names.html">Classic names</a>
@@ -159,6 +160,12 @@
     </footer>
 
     <script src="./data/clean/baby_names_master.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        if (window.location.hash) return;
+        document.getElementById("name-explorer")?.scrollIntoView({ block: "start" });
+      });
+    </script>
     <script src="./app.js"></script>
   </body>
 </html>
