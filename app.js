@@ -144,15 +144,28 @@ function escapeHtml(value) {
 
 function normaliseRows(rows) {
   return rows
-    .map((row) => ({
-      year: Number(row.year),
-      area: String(row.state_or_territory || "").trim(),
-      sex: String(row.sex || "").trim().toLowerCase(),
-      name: titleCase(row.name),
-      source: String(row.source_name || "").trim(),
-      notes: String(row.notes || "").trim(),
-      rank: row.rank === "" || row.rank == null ? null : Number(row.rank)
-    }))
+    .map((row) => {
+      const expanded = Array.isArray(row)
+        ? {
+            year: row[0],
+            state_or_territory: "Australia",
+            sex: row[1],
+            name: row[2],
+            rank: row[3],
+            source_name: row[4],
+            notes: row[5]
+          }
+        : row;
+      return {
+        year: Number(expanded.year),
+        area: String(expanded.state_or_territory || "").trim(),
+        sex: String(expanded.sex || "").trim().toLowerCase(),
+        name: titleCase(expanded.name),
+        source: String(expanded.source_name || "").trim(),
+        notes: String(expanded.notes || "").trim(),
+        rank: expanded.rank === "" || expanded.rank == null ? null : Number(expanded.rank)
+      };
+    })
     .filter((row) => row.year && row.area === "Australia" && ["boy", "girl"].includes(row.sex) && row.name && row.rank);
 }
 

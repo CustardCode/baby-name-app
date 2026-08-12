@@ -116,8 +116,8 @@ b {
   background-size: cover, auto, cover;
   color: rgba(255, 255, 255, 0.82);
   overflow: hidden;
-  min-height: 720px;
-  padding: 8.25em 1.5em 13.5em;
+  min-height: 560px;
+  padding: 6.25em 1.5em 10em;
   position: relative;
   text-align: center;
 }
@@ -1180,8 +1180,8 @@ tbody tr:hover {
   }
 
   #header {
-    min-height: 640px;
-    padding: 7em 1.5em 11em;
+    min-height: 520px;
+    padding: 5.75em 1.5em 9em;
   }
 
   #main {
@@ -1215,8 +1215,8 @@ tbody tr:hover {
   }
 
   #header {
-    min-height: 560px;
-    padding: 5em 1em 9em;
+    min-height: 470px;
+    padding: 4.5em 1em 7.5em;
   }
 
   #header h1 {
@@ -1277,8 +1277,8 @@ tbody tr:hover {
   }
 
   #header {
-    min-height: 520px;
-    padding: 4em 1em 7em;
+    min-height: 430px;
+    padding: 3.5em 1em 6.25em;
   }
 
   #header .logo {

@@ -1,16 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7E2KMVP098"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-7E2KMVP098');
-    </script>
-    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Australian Baby Name Data Sources</title>
@@ -50,7 +40,7 @@
     <main id="main">
       <header class="major container medium">
         <h2>Australian baby name data sources</h2>
-        <p>The app uses the best public national ranking available for each year.</p>
+        <p>The app uses public Australia-wide baby-name ranking data and applies a consistent source priority when sources overlap.</p>
       </header>
 
       <section class="box container">
@@ -58,15 +48,17 @@
           <h2>Coverage notes</h2>
           <p>What the data means</p>
         </header>
-        <p>Rankings are based on available Australian baby-name data. If a name is missing from a year, it may mean the name was outside the published list, not that it had zero births.</p>
+        <p>Rankings are based on available Australian baby-name data. Where multiple sources cover the same year and gender, official or reported national ranking rows are preferred first, calculated Australia-wide totals are used next, and broader public lists are used only as fallback or to fill names beyond the higher-priority source cut-off.</p>
+        <p>If a name is missing from a year, it may mean the name was outside the published list, not that it had zero births.</p>
         <div class="table-wrap">
           <table>
             <tbody>
-              <tr><th>Years covered</th><td>2008-2025, with some additional state and reported national rows where available.</td></tr>
+              <tr><th>Years covered</th><td>2008-2025 from the public ranking rows currently available to the site.</td></tr>
               <tr><th>Gender coverage</th><td>Boys and girls.</td></tr>
-              <tr><th>List type</th><td>Mostly published top-100 rankings. Counts are only shown where the source provides them.</td></tr>
+              <tr><th>List type</th><td>Mostly published top-100 rankings. Counts are only shown where the original source provides them.</td></tr>
+              <tr><th>Overlap handling</th><td>When sources disagree for the same name, year and gender, the higher-priority source is shown so name pages and ranking pages stay consistent.</td></tr>
               <tr><th>Meaning and origin metadata</th><td>Stored separately in data/clean/name_metadata.csv. Not every name has meaning data yet, and meanings or origins can vary by source.</td></tr>
-              <tr><th>Last updated</th><td>2026-07-22</td></tr>
+              <tr><th>Last updated</th><td>2026-08-12</td></tr>
             </tbody>
           </table>
         </div>
@@ -78,6 +70,7 @@
           <a href="./">Search names</a>
           <a href="./rankings/top-girls-2025.html">Top girls 2025</a>
           <a href="./rankings/top-boys-2025.html">Top boys 2025</a>
+          <a href="./privacy.html">Privacy</a>
         </div>
       </footer>
     </main>
