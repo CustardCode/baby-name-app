@@ -78,11 +78,23 @@ const els = {
 
 let initialisingFromUrl = false;
 let lastTrackedSearchKey = "";
+let lastTrackedPinterestSearchKey = "";
 
 function trackEvent(eventName, params = {}) {
   try {
     if (typeof window.gtag !== "function") return;
     window.gtag("event", eventName, params);
+  } catch (_) {
+    // Analytics must never interrupt the app.
+  }
+}
+
+function trackPinterestSearch(searchQuery) {
+  try {
+    if (typeof window.pintrk !== "function") return;
+    window.pintrk("track", "search", {
+      search_query: searchQuery
+    });
   } catch (_) {
     // Analytics must never interrupt the app.
   }
@@ -413,6 +425,12 @@ function renderSearch() {
         result_found: ranked.length > 0,
         listed_years_count: ranked.length
       });
+    }
+    const exactNameShown = names.some((candidate) => candidate.toLowerCase() === safeTerm.toLowerCase());
+    const pinterestSearchKey = safeTerm.toLowerCase();
+    if (ranked.length > 0 && exactNameShown && pinterestSearchKey !== lastTrackedPinterestSearchKey) {
+      lastTrackedPinterestSearchKey = pinterestSearchKey;
+      trackPinterestSearch(safeTerm);
     }
     const url = new URL(window.location.href);
     url.searchParams.set("name", safeTerm);
