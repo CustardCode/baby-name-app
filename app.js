@@ -239,10 +239,17 @@ function rowsForYearSex(year, sex) {
 
   const bestPriority = Math.max(...rows.map(sourcePriority));
   if (bestPriority > 1) {
-    const primaryRows = rows.filter((row) => sourcePriority(row) === bestPriority);
-    const primaryCutoff = Math.max(...primaryRows.map((row) => row.rank || 0));
-    const fillerRows = rows.filter((row) => sourcePriority(row) < bestPriority && row.rank > primaryCutoff);
-    return dedupeByName([...primaryRows, ...fillerRows]);
+    const primaryRows = rows
+      .filter((row) => sourcePriority(row) === bestPriority)
+      .sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name));
+    const usedNames = new Set(primaryRows.map((row) => row.name.toLowerCase()));
+    const fillerRows = rows
+      .filter((row) => sourcePriority(row) < bestPriority && !usedNames.has(row.name.toLowerCase()))
+      .sort((a, b) => a.rank - b.rank || sourcePriority(b) - sourcePriority(a) || a.name.localeCompare(b.name));
+    return [...primaryRows, ...fillerRows].map((row, index) => ({
+      ...row,
+      rank: index + 1
+    }));
   }
 
   return dedupeByName(rows);
