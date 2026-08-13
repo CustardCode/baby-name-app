@@ -73,7 +73,9 @@ const els = {
   nameStats: document.querySelector("#nameStats"),
   yearCards: document.querySelector("#yearCards"),
   trendCanvas: document.querySelector("#trendCanvas"),
-  chartTooltip: document.querySelector("#chartTooltip")
+  chartTooltip: document.querySelector("#chartTooltip"),
+  checkerButton: document.querySelector("#checkerSearchButton"),
+  checkerSuggestionButtons: [...document.querySelectorAll("[data-checker-name]")]
 };
 
 let initialisingFromUrl = false;
@@ -240,6 +242,7 @@ function lastTenYears() {
 }
 
 function populateYears() {
+  if (!els.year) return;
   const availableYears = years();
   els.year.innerHTML = availableYears.map((year) => `<option value="${year}">${year}</option>`).join("");
   els.year.value = availableYears[0] || "";
@@ -349,6 +352,7 @@ function updateSearchSexToggle(activeSex, options, hasName, canCompare) {
 }
 
 function renderSearch() {
+  if (!els.nameSearch || !els.searchSummary || !els.searchSexLabel || !els.nameStats || !els.yearCards) return;
   const name = titleCase(els.nameSearch.value);
   if (name !== state.lastSearchName) {
     state.lastSearchName = name;
@@ -375,6 +379,7 @@ function renderSearch() {
   const ranked = options[sex].ranked;
   const latest = history[history.length - 1];
   const best = ranked.length ? ranked.reduce((winner, item) => (item.row.rank < winner.row.rank ? item : winner), ranked[0]) : null;
+  const previousRanked = ranked.length > 1 ? ranked[ranked.length - 2] : null;
   const shownNames = [...new Set(ranked.map((item) => item.row.name))];
   const label = names.length > 1 ? `${name} (${names.join(" / ")})` : name;
   els.searchSexLabel.textContent = hasBoth
@@ -389,17 +394,34 @@ function renderSearch() {
   const detailName = shownNames[0] || names[0];
   const detailSlug = slugify(detailName);
   const detailHref = detailSlug ? `./names/${sexPlural(sex)}/${detailSlug}.html` : "";
+  let movement = "N/A";
+  let direction = "No trend yet";
+  if (latest?.row && previousRanked?.row) {
+    const change = previousRanked.row.rank - latest.row.rank;
+    if (change > 0) {
+      movement = `Up ${change} places`;
+      direction = "Rising";
+    } else if (change < 0) {
+      movement = `Down ${Math.abs(change)} places`;
+      direction = "Falling";
+    } else {
+      movement = "No change";
+      direction = "Steady";
+    }
+  }
   const statCards = [
     ["Latest", latest?.row ? ordinal(latest.row.rank) : "Not top 100"],
     ["Best", best ? `${ordinal(best.row.rank)} in ${best.year}` : "Not top 100"],
-    ["Listed", `${ranked.length}/10 years`]
+    ["Listed", `${ranked.length}/10 years`],
+    ["Previous", previousRanked ? `${ordinal(previousRanked.row.rank)} in ${previousRanked.year}` : "N/A"],
+    ["Movement", movement],
+    ["Trend", direction]
   ].map(([label, value]) => `<div class="stat"><span>${label}</span><b>${escapeHtml(value)}</b></div>`);
 
-  statCards.push(
-    detailHref
-      ? `<a class="stat stat-link" href="${detailHref}" aria-label="View full profile for ${escapeHtml(detailName)}"><span>View full profile</span><b>${escapeHtml(detailName)} <em aria-hidden="true">→</em></b></a>`
-      : `<div class="stat"><span>View full profile</span><b>N/A</b></div>`
-  );
+  const profileCard = detailHref
+    ? `<a class="stat stat-link profile-cta" href="${detailHref}" aria-label="View full profile for ${escapeHtml(detailName)}"><span>View full profile</span><b>${escapeHtml(detailName)} <em aria-hidden="true">&rarr;</em></b></a>`
+    : `<div class="stat"><span>View full profile</span><b>N/A</b></div>`;
+  statCards.push(profileCard);
 
   els.nameStats.innerHTML = statCards.join("");
 
@@ -441,6 +463,7 @@ function renderSearch() {
 }
 
 function renderRankings() {
+  if (!els.sex || !els.year || !els.limit || !els.rankingTitle || !els.recordCount || !els.rankingBody) return;
   const sex = els.sex.value;
   const year = Number(els.year.value);
   const limit = Math.min(100, Math.max(1, Number(els.limit.value || 20)));
@@ -461,6 +484,7 @@ function renderRankings() {
 
 function drawChart(history) {
   const canvas = els.trendCanvas;
+  if (!canvas) return;
   hideChartTooltip();
   const rect = canvas.getBoundingClientRect();
   const width = Math.max(Math.floor(rect.width), 320);
@@ -582,6 +606,7 @@ function hideChartTooltip() {
 }
 
 function updateChartTooltip(event) {
+  if (!els.trendCanvas) return;
   const rect = els.trendCanvas.getBoundingClientRect();
   const source = event.touches?.[0] || event;
   const x = source.clientX - rect.left;
@@ -598,6 +623,7 @@ function renderAll() {
 }
 
 function searchRankingName(name, sex) {
+  if (!els.nameSearch) return;
   els.nameSearch.value = name;
   state.lastSearchName = titleCase(name);
   state.searchSexOverride = sex;
@@ -606,6 +632,7 @@ function searchRankingName(name, sex) {
 }
 
 function trackFilterChange() {
+  if (!els.year || !els.sex || !els.limit) return;
   trackEvent("top_list_filter_change", {
     year: Number(els.year.value),
     gender: els.sex.value,
@@ -613,19 +640,19 @@ function trackFilterChange() {
   });
 }
 
-els.sex.addEventListener("change", () => {
+els.sex?.addEventListener("change", () => {
   renderRankings();
   trackFilterChange();
 });
-els.year.addEventListener("change", () => {
+els.year?.addEventListener("change", () => {
   renderRankings();
   trackFilterChange();
 });
-els.limit.addEventListener("input", () => {
+els.limit?.addEventListener("input", () => {
   renderRankings();
   trackFilterChange();
 });
-els.nameSearch.addEventListener("input", renderSearch);
+els.nameSearch?.addEventListener("input", renderSearch);
 els.searchSexButtons.forEach((button) => {
   button.addEventListener("click", () => {
     if (button.disabled) return;
@@ -633,7 +660,7 @@ els.searchSexButtons.forEach((button) => {
     renderSearch();
   });
 });
-els.rankingBody.addEventListener("click", (event) => {
+els.rankingBody?.addEventListener("click", (event) => {
   const button = event.target.closest(".name-link");
   if (button) {
     trackEvent("clicked_ranking_name", {
@@ -645,17 +672,30 @@ els.rankingBody.addEventListener("click", (event) => {
     searchRankingName(button.dataset.name, els.sex.value);
   }
 });
-els.trendCanvas.addEventListener("mousemove", updateChartTooltip);
-els.trendCanvas.addEventListener("mouseleave", hideChartTooltip);
-els.trendCanvas.addEventListener("touchstart", updateChartTooltip, { passive: true });
-els.trendCanvas.addEventListener("touchmove", updateChartTooltip, { passive: true });
+els.trendCanvas?.addEventListener("mousemove", updateChartTooltip);
+els.trendCanvas?.addEventListener("mouseleave", hideChartTooltip);
+els.trendCanvas?.addEventListener("touchstart", updateChartTooltip, { passive: true });
+els.trendCanvas?.addEventListener("touchmove", updateChartTooltip, { passive: true });
+els.checkerButton?.addEventListener("click", () => {
+  renderSearch();
+  document.querySelector("#checkerResults")?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+});
+els.checkerSuggestionButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!els.nameSearch) return;
+    els.nameSearch.value = button.dataset.checkerName || "";
+    state.lastSearchName = "";
+    renderSearch();
+    document.querySelector("#checkerResults")?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  });
+});
 window.addEventListener("resize", () => renderSearch());
 
 async function initialise() {
   try {
     setRows(await loadRows());
     populateYears();
-    els.sex.value = "girl";
+    if (els.sex) els.sex.value = "girl";
     const urlName = safeSearchTerm(new URLSearchParams(window.location.search).get("name") || "");
     const urlSex = new URLSearchParams(window.location.search).get("sex");
     if (urlName) {
@@ -667,8 +707,8 @@ async function initialise() {
     initialisingFromUrl = false;
   } catch (error) {
     console.error(error);
-    els.searchSummary.textContent = "Name data could not be loaded.";
-    els.searchSexLabel.textContent = "Auto";
+    if (els.searchSummary) els.searchSummary.textContent = "Name data could not be loaded.";
+    if (els.searchSexLabel) els.searchSexLabel.textContent = "Auto";
     drawChart([]);
   }
 }

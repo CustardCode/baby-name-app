@@ -28,6 +28,10 @@
         src="https://ct.pinterest.com/v3/?event=init&tid=2612814838872&noscript=1" />
     </noscript>
 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7321233055716767"
+     crossorigin="anonymous"></script>
+
+    <meta name="p:domain_verify" content="b2d585f99c9355b3fb485c66c08f2c62"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Baby Name Popularity Checker | Baby Names Australia</title>
@@ -54,7 +58,7 @@
     <link rel="stylesheet" href="./styles.css" />
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.babynamesaustralia.com/baby-name-popularity-checker-australia.html","url":"https://www.babynamesaustralia.com/baby-name-popularity-checker-australia.html","name":"Baby Name Popularity Checker","description":"Use the Baby Name Popularity Checker to search any name and see its latest Australian ranking, popularity history and trend.","isPartOf":{"@type":"WebSite","name":"Australian Baby Name Rankings","url":"https://www.babynamesaustralia.com/"},"about":[{"@type":"Thing","name":"Baby name popularity"},{"@type":"Thing","name":"Australian baby names"},{"@type":"Thing","name":"Baby name rankings"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Australian Baby Names","item":"https://www.babynamesaustralia.com/"},{"@type":"ListItem","position":2,"name":"Baby Name Popularity Checker","item":"https://www.babynamesaustralia.com/baby-name-popularity-checker-australia.html"}]}]}</script>
   </head>
-  <body class="directive-page profile-page">
+  <body class="directive-page profile-page checker-page">
     <header id="header">
       <span class="logo" aria-hidden="true">A</span>
       <h1>Baby Name Popularity Checker</h1>
@@ -66,30 +70,58 @@
     </header>
 
     <main id="main">
-      <section class="box feature container">
-        <div class="feature-content">
-          <header>
-            <h2>Search popularity</h2>
-            <p>Find the ranking story behind a name</p>
-          </header>
-          <p>
-            The Baby Names Australia popularity checker lets you type a baby name and quickly see where it appears in the Australian ranking data. It is built for parents who want more than a list: you can see the latest rank, the best rank, how often the name appears, and whether the name has been rising, falling or holding steady.
-          </p>
-          <p>
-            Search names like Charlotte, Hazel, Noah, Luca or Theodore to compare their ranking history over time. If a name appears for both boys and girls in the data, the explorer can show both sides so you can understand how the name is used.
-          </p>
-          <div class="seo-links">
-            <a href="./?name=Hazel#name-explorer">Check Hazel</a>
-            <a href="./?name=Noah#name-explorer">Check Noah</a>
-            <a href="./?name=Charlotte#name-explorer">Check Charlotte</a>
-            <a href="./?name=Luca#name-explorer">Check Luca</a>
+      <section class="box container checker-tool" id="checker">
+        <div class="checker-panel">
+          <div class="checker-copy">
+            <p class="eyebrow">Popularity checker</p>
+            <h2>Explore a baby's name popularity</h2>
+            <p>Search a name to see its latest Australian rank, ranking history and trend.</p>
+          </div>
+
+          <div class="checker-controls" role="search" aria-label="Baby name popularity checker">
+            <div class="search-hero checker-search-row">
+              <input id="nameSearch" type="search" placeholder="Type a name..." autocomplete="off" aria-label="Search a baby name" />
+              <div class="auto-sex" aria-live="polite">
+                <span id="searchSexLabel">Auto</span>
+                <div class="search-sex-toggle" aria-label="Choose boy or girl ranking">
+                  <button id="searchGirlButton" type="button" data-search-sex="girl">Girl</button>
+                  <button id="searchBoyButton" type="button" data-search-sex="boy">Boy</button>
+                </div>
+              </div>
+            </div>
+
+            <button id="checkerSearchButton" class="button checker-button" type="button">Show popularity</button>
+
+            <div class="checker-examples" aria-label="Example names">
+              <span>Try:</span>
+              <button type="button" data-checker-name="Hazel">Hazel</button>
+              <button type="button" data-checker-name="Noah">Noah</button>
+              <button type="button" data-checker-name="Isla">Isla</button>
+              <button type="button" data-checker-name="Luca">Luca</button>
+              <button type="button" data-checker-name="Matilda">Matilda</button>
+              <button type="button" data-checker-name="Theodore">Theodore</button>
+            </div>
+          </div>
+
+          <div id="checkerResults" class="checker-results">
+            <div id="searchSummary" class="search-summary"></div>
+            <div id="nameStats" class="stats checker-stats"></div>
+            <div class="chart-card checker-chart">
+              <div class="chart-title">
+                <span>Ranking history</span>
+                <small>Lower is more popular</small>
+              </div>
+              <canvas id="trendCanvas" aria-label="Name ranking chart"></canvas>
+              <div id="chartTooltip" class="chart-tooltip" role="status"></div>
+            </div>
+            <div id="yearCards" class="year-cards"></div>
           </div>
         </div>
       </section>
 
       <section class="box container discovery-list">
         <div class="discovery-section-header">
-          <h3>What you can check</h3>
+          <h3>What you can explore</h3>
           <p>Use the explorer to move from a name you like into rankings, meanings and similar name ideas.</p>
         </div>
         <div class="discovery-grid">
@@ -152,6 +184,31 @@
             <b>Mila</b>
             <em>Short, stylish and easy to compare across the chart.</em>
           </a>
+          <a class="discovery-card" href="./names/girls/luna.html">
+            <span>Girl</span>
+            <b>Luna</b>
+            <em>Soft, modern and popular enough to show a clear trend line.</em>
+          </a>
+          <a class="discovery-card" href="./names/boys/hudson.html">
+            <span>Boy</span>
+            <b>Hudson</b>
+            <em>A surname-style boys name with strong recent ranking history.</em>
+          </a>
+          <a class="discovery-card" href="./names/girls/elsie.html">
+            <span>Girl</span>
+            <b>Elsie</b>
+            <em>Vintage-feeling and useful for comparing recent popularity movement.</em>
+          </a>
+          <a class="discovery-card" href="./names/girls/violet.html">
+            <span>Girl</span>
+            <b>Violet</b>
+            <em>Nature-inspired, classic and easy to compare against similar names.</em>
+          </a>
+          <a class="discovery-card" href="./names/girls/aria.html">
+            <span>Girl</span>
+            <b>Aria</b>
+            <em>Modern, melodic and backed by a useful ranking profile.</em>
+          </a>
         </div>
       </section>
 
@@ -173,5 +230,8 @@
         <p>Search, compare and follow the popularity story behind Australian baby names.</p>
       </div>
     </footer>
+
+    <script src="./data/clean/baby_names_master.js"></script>
+    <script src="./app.js"></script>
   </body>
 </html>
