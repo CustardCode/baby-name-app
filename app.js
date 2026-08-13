@@ -254,14 +254,14 @@ function rowsForYearSex(year, sex) {
 
   const bestPriority = Math.max(...rows.map(sourcePriority));
   if (bestPriority > 1) {
-    const primaryRows = rows
+    const primaryRows = uniqueByNameInOrder(rows
       .filter((row) => sourcePriority(row) === bestPriority)
-      .sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name));
+      .sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name)));
     const usedNames = new Set(primaryRows.map((row) => row.name.toLowerCase()));
-    const fillerRows = rows
+    const fillerRows = uniqueByNameInOrder(rows
       .filter((row) => sourcePriority(row) < bestPriority && !usedNames.has(row.name.toLowerCase()))
-      .sort((a, b) => a.rank - b.rank || sourcePriority(b) - sourcePriority(a) || a.name.localeCompare(b.name));
-    return [...primaryRows, ...fillerRows].map((row, index) => ({
+      .sort((a, b) => a.rank - b.rank || sourcePriority(b) - sourcePriority(a) || a.name.localeCompare(b.name)));
+    return uniqueByNameInOrder([...primaryRows, ...fillerRows]).map((row, index) => ({
       ...row,
       rank: index + 1
     }));
@@ -290,6 +290,16 @@ function dedupeByName(rows) {
     }
   });
   return [...byName.values()].sort((a, b) => a.rank - b.rank || sourcePriority(b) - sourcePriority(a) || a.name.localeCompare(b.name));
+}
+
+function uniqueByNameInOrder(rows) {
+  const seen = new Set();
+  return rows.filter((row) => {
+    const key = row.name.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function rankForNames(names, year, sex) {
