@@ -119,6 +119,11 @@ function sexPlural(sex) {
   return sex === "boy" ? "boys" : "girls";
 }
 
+function nameProfileHref(name, sex) {
+  const slug = slugify(name);
+  return slug ? `./names/${sexPlural(sex)}/${slug}.html` : "";
+}
+
 function titleCase(value) {
   return String(value || "")
     .trim()
@@ -230,7 +235,14 @@ async function loadRows() {
 }
 
 function setRows(rows) {
-  state.rows = normaliseRows([...rows, ...NATIONAL_REPORT_ROWS]);
+  const loadedRows = normaliseRows(rows);
+  const hasNational2025 = loadedRows.some((row) =>
+    row.year === 2025 &&
+    sourcePriority(row) >= 3
+  );
+  state.rows = hasNational2025
+    ? loadedRows
+    : normaliseRows([...rows, ...NATIONAL_REPORT_ROWS]);
 }
 
 function years() {
@@ -402,8 +414,7 @@ function renderSearch() {
     : `No top 100 result for ${label}.`;
 
   const detailName = shownNames[0] || names[0];
-  const detailSlug = slugify(detailName);
-  const detailHref = detailSlug ? `./names/${sexPlural(sex)}/${detailSlug}.html` : "";
+  const detailHref = nameProfileHref(detailName, sex);
   let movement = "N/A";
   let direction = "No trend yet";
   if (latest?.row && previousRanked?.row) {
@@ -477,18 +488,22 @@ function renderRankings() {
   const sex = els.sex.value;
   const year = Number(els.year.value);
   const limit = Math.min(100, Math.max(1, Number(els.limit.value || 20)));
-  const rows = rowsForYearSex(year, sex).filter((row) => row.rank <= limit);
+  const rows = uniqueByNameInOrder(rowsForYearSex(year, sex))
+    .filter((row) => row.rank <= limit);
   const sexLabel = sex === "boy" ? "boys" : "girls";
 
   els.rankingTitle.textContent = `Top ${sexLabel} names \u2014 ${year}`;
   els.recordCount.textContent = `Top ${limit}`;
   els.rankingBody.innerHTML = rows.length
-    ? rows.map((row) => `
+    ? rows.map((row) => {
+      const href = nameProfileHref(row.name, sex);
+      return `
       <tr>
         <td>${ordinal(row.rank)}</td>
-        <td><button class="name-link" type="button" data-name="${escapeHtml(row.name)}" data-rank="${row.rank}">${escapeHtml(row.name)}</button></td>
+        <td><a class="name-link" href="${href}" data-name="${escapeHtml(row.name)}" data-rank="${row.rank}">${escapeHtml(row.name)}</a></td>
       </tr>
-    `).join("")
+    `;
+    }).join("")
     : `<tr><td colspan="2" class="empty">No names found.</td></tr>`;
 }
 
@@ -632,15 +647,6 @@ function renderAll() {
   renderRankings();
 }
 
-function searchRankingName(name, sex) {
-  if (!els.nameSearch) return;
-  els.nameSearch.value = name;
-  state.lastSearchName = titleCase(name);
-  state.searchSexOverride = sex;
-  renderSearch();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
 function trackFilterChange() {
   if (!els.year || !els.sex || !els.limit) return;
   trackEvent("top_list_filter_change", {
@@ -671,15 +677,14 @@ els.searchSexButtons.forEach((button) => {
   });
 });
 els.rankingBody?.addEventListener("click", (event) => {
-  const button = event.target.closest(".name-link");
-  if (button) {
+  const link = event.target.closest(".name-link");
+  if (link) {
     trackEvent("clicked_ranking_name", {
-      name: safeSearchTerm(button.dataset.name || ""),
-      rank: Number(button.dataset.rank || 0),
+      name: safeSearchTerm(link.dataset.name || ""),
+      rank: Number(link.dataset.rank || 0),
       year: Number(els.year.value),
       gender: els.sex.value
     });
-    searchRankingName(button.dataset.name, els.sex.value);
   }
 });
 els.trendCanvas?.addEventListener("mousemove", updateChartTooltip);
