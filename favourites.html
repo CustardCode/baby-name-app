@@ -34,17 +34,31 @@
     <meta name="p:domain_verify" content="b2d585f99c9355b3fb485c66c08f2c62"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Privacy Policy | Baby Names Australia</title>
-    <meta name="description" content="Privacy information for Baby Names Australia, including how Google Analytics is used." />
+    <title>Favourite Baby Names | Baby Names Australia</title>
+    <meta name="description" content="Save baby names you love and return to your shortlist on this device." />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#4eb980" />
-    <link rel="canonical" href="https://www.babynamesaustralia.com/privacy.html" />
+    <link rel="canonical" href="https://www.babynamesaustralia.com/favourites.html" />
     <link rel="icon" href="./assets/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" />
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Favourite Baby Names | Baby Names Australia" />
+    <meta property="og:description" content="Save baby names you love and return to your shortlist on this device." />
+    <meta property="og:url" content="https://www.babynamesaustralia.com/favourites.html" />
+    <meta property="og:site_name" content="Australian Baby Name Rankings" />
+    <meta property="og:image" content="https://www.babynamesaustralia.com/assets/social-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Australian Baby Names search and ranking explorer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Favourite Baby Names | Baby Names Australia" />
+    <meta name="twitter:description" content="Save baby names you love and return to your shortlist on this device." />
+    <meta name="twitter:image" content="https://www.babynamesaustralia.com/assets/social-preview.png" />
     <link rel="stylesheet" href="./styles.css" />
+    
   </head>
-  <body class="profile-pilot-page directive-page sources-page">
+  <body class="profile-pilot-page favourites-page">
     <nav class="pilot-topbar" aria-label="Site navigation">
       <a class="pilot-brand" href="./">BabyNames<span>Australia</span><em aria-hidden="true">&hearts;</em></a>
       <div class="pilot-nav-links" aria-label="Popular sections">
@@ -61,57 +75,32 @@
         <button type="submit" aria-label="Search baby names">Search</button>
       </form>
     </nav>
-    <header id="header">
-      <span class="logo" aria-hidden="true">A</span>
-      <h1>Privacy policy</h1>
-      <p>How Baby Names Australia handles simple site usage information.</p>
-      <div class="header-actions">
-        <a class="button" href="./">Back to explorer</a>
-        <a class="button alt" href="./data-sources.html">Data sources</a>
-      </div>
-    </header>
 
-    <main id="main">
-      <header class="major container medium">
-        <h2>Privacy at a glance</h2>
-        <p>Baby Names Australia is a public baby-name search and ranking website. You do not need an account to use it.</p>
-      </header>
-
-      <section class="box container">
-        <header>
-          <h2>Analytics</h2>
-          <p>Google Analytics 4</p>
-        </header>
-        <p>This site uses Google Analytics 4 to understand how people use the website, such as which pages are visited, approximate location, device type, browser type and general interaction patterns.</p>
-        <p>Analytics information is used in aggregate to improve the site. It is not used to personally identify visitors.</p>
-        <p>Google may use cookies or similar technologies to provide this analytics service. You can limit cookies or analytics tracking through your browser settings or privacy tools.</p>
+    <main class="pilot-page-shell favourites-shell">
+      <section class="favourites-hero">
+        <p class="section-kicker">Saved shortlist</p>
+        <h1>Your favourite baby names</h1>
+        <p>Save names as you browse and return to your shortlist anytime on this device.</p>
       </section>
 
-      <section class="box container">
-        <header>
-          <h2>Information you enter</h2>
-          <p>Name searches</p>
-        </header>
-        <p>The site lets you type baby names into the name explorer. Searches are used to show matching ranking information in your browser. The site does not require names, email addresses, accounts or payment details.</p>
-      </section>
-
-      <section class="box container">
-        <header>
-          <h2>Data sources</h2>
-          <p>Public ranking information</p>
-        </header>
-        <p>The baby-name rankings, meanings and origin notes are built from public ranking data and curated name-note files used by the site. You can read more on the <a href="./data-sources.html">data sources page</a>.</p>
-      </section>
-
-      <footer class="major container medium">
-        <h2>Keep exploring</h2>
-        <div class="seo-links">
-          <a href="./">Name explorer</a>
-          <a href="./rankings/top-girls-2025.html">Top girls 2025</a>
-          <a href="./rankings/top-boys-2025.html">Top boys 2025</a>
+      <section class="favourites-panel" aria-live="polite">
+        <div class="favourites-grid" data-favourites-list></div>
+        <div class="favourites-empty" data-favourites-empty>
+          <h2>No favourites yet</h2>
+          <p>Browse baby names and tap the heart on any name you want to save.</p>
+          <nav class="seo-links" aria-label="Start exploring">
+            <a href="./#name-explorer">Name Explorer</a>
+            <a href="./baby-name-popularity-checker-australia.html">Baby Name Popularity Checker</a>
+            <a href="./names/girls/">Girl Names</a>
+            <a href="./names/boys/">Boy Names</a>
+            <a href="./rising-baby-girl-names.html">Rising Names</a>
+          </nav>
         </div>
-      </footer>
+      </section>
+
+      <p class="favourites-device-note">Favourites are saved on this device.</p>
     </main>
+
     <script src="./favourites.js" defer></script>
 
   </body>

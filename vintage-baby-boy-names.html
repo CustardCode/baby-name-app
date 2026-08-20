@@ -58,7 +58,23 @@
     <link rel="stylesheet" href="./styles.css" />
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://www.babynamesaustralia.com/vintage-baby-boy-names.html","url":"https://www.babynamesaustralia.com/vintage-baby-boy-names.html","name":"Vintage Baby Boy Names in Australia | Classic Name Ideas","description":"Explore vintage baby boy names in Australia with ranking history, meanings, origins and links to full profiles.","isPartOf":{"@type":"WebSite","name":"Australian Baby Name Rankings","url":"https://www.babynamesaustralia.com/"},"mainEntity":{"@type":"ItemList","numberOfItems":20,"itemListElement":[{"@type":"ListItem","position":1,"name":"Oliver","url":"https://www.babynamesaustralia.com/names/boys/oliver.html"},{"@type":"ListItem","position":2,"name":"Noah","url":"https://www.babynamesaustralia.com/names/boys/noah.html"},{"@type":"ListItem","position":3,"name":"Henry","url":"https://www.babynamesaustralia.com/names/boys/henry.html"},{"@type":"ListItem","position":4,"name":"Luca","url":"https://www.babynamesaustralia.com/names/boys/luca.html"},{"@type":"ListItem","position":5,"name":"Leo","url":"https://www.babynamesaustralia.com/names/boys/leo.html"},{"@type":"ListItem","position":6,"name":"Jack","url":"https://www.babynamesaustralia.com/names/boys/jack.html"},{"@type":"ListItem","position":7,"name":"William","url":"https://www.babynamesaustralia.com/names/boys/william.html"},{"@type":"ListItem","position":8,"name":"Levi","url":"https://www.babynamesaustralia.com/names/boys/levi.html"},{"@type":"ListItem","position":9,"name":"Archie","url":"https://www.babynamesaustralia.com/names/boys/archie.html"},{"@type":"ListItem","position":10,"name":"Oscar","url":"https://www.babynamesaustralia.com/names/boys/oscar.html"},{"@type":"ListItem","position":11,"name":"George","url":"https://www.babynamesaustralia.com/names/boys/george.html"},{"@type":"ListItem","position":12,"name":"Theodore","url":"https://www.babynamesaustralia.com/names/boys/theodore.html"},{"@type":"ListItem","position":13,"name":"Hugo","url":"https://www.babynamesaustralia.com/names/boys/hugo.html"},{"@type":"ListItem","position":14,"name":"Joshua","url":"https://www.babynamesaustralia.com/names/boys/joshua.html"},{"@type":"ListItem","position":15,"name":"Joseph","url":"https://www.babynamesaustralia.com/names/boys/joseph.html"},{"@type":"ListItem","position":16,"name":"Jasper","url":"https://www.babynamesaustralia.com/names/boys/jasper.html"},{"@type":"ListItem","position":17,"name":"Arthur","url":"https://www.babynamesaustralia.com/names/boys/arthur.html"},{"@type":"ListItem","position":18,"name":"Harvey","url":"https://www.babynamesaustralia.com/names/boys/harvey.html"},{"@type":"ListItem","position":19,"name":"Edward","url":"https://www.babynamesaustralia.com/names/boys/edward.html"},{"@type":"ListItem","position":20,"name":"Alfie","url":"https://www.babynamesaustralia.com/names/boys/alfie.html"}]}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.babynamesaustralia.com/"},{"@type":"ListItem","position":2,"name":"Vintage Baby Boy Names in Australia | Classic Name Ideas","item":"https://www.babynamesaustralia.com/vintage-baby-boy-names.html"}]}]}</script>
   </head>
-  <body class="directive-page discovery-page landing-page landing-theme-vintage">
+  <body class="profile-pilot-page directive-page discovery-page landing-page landing-theme-vintage">
+    <nav class="pilot-topbar" aria-label="Site navigation">
+      <a class="pilot-brand" href="./">BabyNames<span>Australia</span><em aria-hidden="true">&hearts;</em></a>
+      <div class="pilot-nav-links" aria-label="Popular sections">
+        <a href="./names/girls/">Baby Names</a>
+        <a href="./popular-baby-girl-names-australia.html">Popular</a>
+        <a href="./unique-australian-baby-names.html">Unique</a>
+        <a href="./classic-baby-names.html">Vintage</a>
+        <a href="./baby-name-popularity-checker-australia.html">Tools</a>
+      </div>
+      <a class="pilot-favourites-link" href="./favourites.html" aria-label="View favourite baby names">♡ Favourites<span data-favourite-count></span></a>
+      <form class="pilot-top-search" action="./" method="get">
+        <label class="sr-only" for="pilot-site-search">Search a name</label>
+        <input id="pilot-site-search" name="name" type="search" placeholder="Search a name..." />
+        <button type="submit" aria-label="Search baby names">Search</button>
+      </form>
+    </nav>
     <header id="header">
       <span class="logo" aria-hidden="true">A</span>
       <h1>Vintage baby boy names</h1>
@@ -72,7 +88,7 @@
     <main id="main">
       <header class="major container landing-intro">
         <h2>Vintage baby boy names</h2>
-        <p>This collection contains 20 baby boy names selected from the Australian ranking data used by Baby Names Australia. Each idea includes current popularity context where available, so the page works as more than a style list. 6 names here moved up in the most recent year-to-year comparison, 6 currently sit outside the top 50, and 11 have verified meaning notes in the local name metadata. Open any name to see the full ranking history, meaning, origin and similar names.</p>
+        <p>This collection contains 20 baby boy names selected from the Australian ranking data used by Baby Names Australia. Each idea includes current popularity context where available, so the page works as more than a style list. 6 names here moved up in the most recent year-to-year comparison, 6 currently sit outside the top 50, and 11 have verified meaning notes. Open any name to see the full ranking history, meaning, origin and similar names.</p>
       </header>
 
       <section class="box container landing-list">
@@ -113,5 +129,7 @@
         <p>Search meanings, origins, ranking history and similar names in the Australian baby-name explorer.</p>
       </div>
     </footer>
+    <script src="./favourites.js" defer></script>
+
   </body>
 </html>

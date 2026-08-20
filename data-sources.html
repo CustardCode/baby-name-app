@@ -57,7 +57,23 @@
     <meta name="twitter:image" content="https://www.babynamesaustralia.com/assets/social-preview.png" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body class="directive-page sources-page">
+  <body class="profile-pilot-page directive-page sources-page">
+    <nav class="pilot-topbar" aria-label="Site navigation">
+      <a class="pilot-brand" href="./">BabyNames<span>Australia</span><em aria-hidden="true">&hearts;</em></a>
+      <div class="pilot-nav-links" aria-label="Popular sections">
+        <a href="./names/girls/">Baby Names</a>
+        <a href="./popular-baby-girl-names-australia.html">Popular</a>
+        <a href="./unique-australian-baby-names.html">Unique</a>
+        <a href="./classic-baby-names.html">Vintage</a>
+        <a href="./baby-name-popularity-checker-australia.html">Tools</a>
+      </div>
+      <a class="pilot-favourites-link" href="./favourites.html" aria-label="View favourite baby names">♡ Favourites<span data-favourite-count></span></a>
+      <form class="pilot-top-search" action="./" method="get">
+        <label class="sr-only" for="pilot-site-search">Search a name</label>
+        <input id="pilot-site-search" name="name" type="search" placeholder="Search a name..." />
+        <button type="submit" aria-label="Search baby names">Search</button>
+      </form>
+    </nav>
     <header id="header">
       <span class="logo" aria-hidden="true">A</span>
       <h1>Data sources</h1>
@@ -89,7 +105,7 @@
               <tr><th>List type</th><td>Mostly published top-100 rankings. The public pages focus on rank order because birth counts are not consistently available across sources.</td></tr>
               <tr><th>Overlap handling</th><td>When sources disagree for the same name, year and gender, the higher-priority source is shown so name pages and ranking pages stay consistent.</td></tr>
               <tr><th>Meaning and origin metadata</th><td>Stored separately in data/clean/name_metadata.csv. Not every name has meaning data yet, and meanings or origins can vary by source.</td></tr>
-              <tr><th>Last updated</th><td>2026-08-13</td></tr>
+              <tr><th>Last updated</th><td>2026-08-20</td></tr>
             </tbody>
           </table>
         </div>
@@ -112,5 +128,7 @@
         <p>Search names, check ranking histories and open full profiles from the Australian baby-name explorer.</p>
       </div>
     </footer>
+    <script src="./favourites.js" defer></script>
+
   </body>
 </html>

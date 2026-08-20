@@ -58,7 +58,23 @@
     <link rel="stylesheet" href="./styles.css" />
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.babynamesaustralia.com/baby-name-popularity-checker-australia.html","url":"https://www.babynamesaustralia.com/baby-name-popularity-checker-australia.html","name":"Baby Name Popularity Checker","description":"Use the Baby Name Popularity Checker to search any name and see its latest Australian ranking, popularity history and trend.","isPartOf":{"@type":"WebSite","name":"Australian Baby Name Rankings","url":"https://www.babynamesaustralia.com/"},"about":[{"@type":"Thing","name":"Baby name popularity"},{"@type":"Thing","name":"Australian baby names"},{"@type":"Thing","name":"Baby name rankings"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Australian Baby Names","item":"https://www.babynamesaustralia.com/"},{"@type":"ListItem","position":2,"name":"Baby Name Popularity Checker","item":"https://www.babynamesaustralia.com/baby-name-popularity-checker-australia.html"}]}]}</script>
   </head>
-  <body class="directive-page profile-page checker-page">
+  <body class="profile-pilot-page directive-page profile-page checker-page">
+    <nav class="pilot-topbar" aria-label="Site navigation">
+      <a class="pilot-brand" href="./">BabyNames<span>Australia</span><em aria-hidden="true">&hearts;</em></a>
+      <div class="pilot-nav-links" aria-label="Popular sections">
+        <a href="./names/girls/">Baby Names</a>
+        <a href="./popular-baby-girl-names-australia.html">Popular</a>
+        <a href="./unique-australian-baby-names.html">Unique</a>
+        <a href="./classic-baby-names.html">Vintage</a>
+        <a href="./baby-name-popularity-checker-australia.html">Tools</a>
+      </div>
+      <a class="pilot-favourites-link" href="./favourites.html" aria-label="View favourite baby names">♡ Favourites<span data-favourite-count></span></a>
+      <form class="pilot-top-search" action="./" method="get">
+        <label class="sr-only" for="pilot-site-search">Search a name</label>
+        <input id="pilot-site-search" name="name" type="search" placeholder="Search a name..." />
+        <button type="submit" aria-label="Search baby names">Search</button>
+      </form>
+    </nav>
     <header id="header">
       <span class="logo" aria-hidden="true">A</span>
       <h1>Baby Name Popularity Checker</h1>
@@ -232,6 +248,7 @@
     </footer>
 
     <script src="./data/clean/baby_names_master.js"></script>
+    <script src="./favourites.js" defer></script>
     <script src="./app.js"></script>
   </body>
 </html>
